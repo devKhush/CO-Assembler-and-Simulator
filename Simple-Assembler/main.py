@@ -1,1 +1,1 @@
-print("Assignment CO ")
+print("Assignment CO")
