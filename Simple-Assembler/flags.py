@@ -1,4 +1,4 @@
-global V = 0
-global L = 0
-global G = 0
-global E = 0
+V = 0
+L = 0
+G = 0
+E = 0

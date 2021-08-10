@@ -6,6 +6,5 @@ operands = [3,3,2,2,2,2,3,2]
 
 
 
-def addition(reg1,reg2,reg3):
-    
+
 
