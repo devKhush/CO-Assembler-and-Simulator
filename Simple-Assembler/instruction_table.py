@@ -6,3 +6,4 @@ type = ["A","A","B","C","D","D","A","C","B","B","A","A","A","C","C","E","E","E",
 operands = [3,3,2,2,2,2,3,2]
 # edit
 #item
+#iamhere
