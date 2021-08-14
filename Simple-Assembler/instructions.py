@@ -17,9 +17,9 @@ def typeB_fun(instruction_entered):
     op_code = instructions.type_B_instructions[instruction_entered[0]]
     r1= binary_of_registers[instruction_entered[1]][0]
     r_value=binary_of_registers[instruction_entered[1]][1]
-        r= instruction_entered[1]
-    imm_string='{0:08b}'.format(binary_of_registers[r][1]) #converting value stored in register
-    if(instruction_entered[0]=="ls"):
+    r= instruction_entered[1]
+    imm_string='{0:08b}'.format(instruction_entered[2][1:]) #converting value stored in register
+    if(instruction_entered[0]=="rs"):
         for i in range(0,int(instruction_entered[2][1:])):
             r_value=r_value>>
         binary_of_registers[r][1]= r_value
