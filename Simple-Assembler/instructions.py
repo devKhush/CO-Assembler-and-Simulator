@@ -1,5 +1,6 @@
 # instructions, opcodes, operands, type 
 import registers
+from sys import exit
 
 instructions = ["add","sub","mov","mov","ld","st","mul","div","rs","ls","xor","or","and","not","cmp","jmp","jlt","jgt","je","hlt"]
 opcode = ["00000","00001","00010","00011","00100","00101","00110","00111","01000","01001","01010","01011","01100","01101","01110","01111","10000"]
@@ -45,8 +46,10 @@ def typeC_fun(instruction_entered):
             G=1
     ml= op_code+"00000"+r1+r2 #converted into machine code
 
-
-
+def typeF_fun(instruction_entered):
+    op_code = instructions.type_F_instructions[instruction_entered[0]]
+    ml=op_code+"00000000000"
+    exit()
 
 
 
