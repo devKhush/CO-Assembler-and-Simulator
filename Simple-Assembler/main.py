@@ -2,21 +2,25 @@ from sys import stdin
 import registers
 import instructions
 
-all_varaibles_defined =[]
-variables = {} # {'variable_Name': value_in_decimal}
-variables_encountered_again = 0
+all_varaibles_defined =[]   # it has all varaibles defined correctly in input file
+variables = {}  # {'variable_Name': value_in_decimal}
+variables_defination_finished = 0
 
-line_num = 1
-halt_found = 0
-current_address = 0
-all_lables_defined = []
+all_labels_defined = []     # it has all the lables defined correctly in input file
 labels = {} # {'lable_Name' : address_in_decimal}
 
-# staring after variables to hlt
+# description of the below dictionary
+# all valid instructions from staring after variables to hlt
+# it has all the instructions that are defined in file instructions.py as list 'instructions'
+# format = {address_in_input_file :['instruction', line_no_in_input_file]}
 all_instructions ={}
 
 
 # reads all the instructions entered by the files
+line_num = 1
+halt_found = 0
+current_address = 0
+
 for line in stdin:
     if line == '':
         line_num+=1
@@ -29,11 +33,11 @@ for line in stdin:
         line_num+=1
         break
     
-    if instruction_entered[0]=='var' and variables_encountered_again==1:
+    if instruction_entered[0]=='var' and variables_defination_finished==1:
         print(f"'Syntax Error' In line no. {line_num}: Variables NOT defined in the beginning")
         line_num+=1
 
-    if instruction_entered[0]=='var':
+    elif instruction_entered[0]=='var':
         variable = instruction_entered[1]
         if variable in instructions.instructions:
             print(f"'Syntax Error' In line no. {line_num}: Instruction mnemonic and variables can't have same name")
@@ -41,15 +45,27 @@ for line in stdin:
         elif variable in all_varaibles_defined:
             print(f"'Syntax Error' In line no. {line_num}: This variable is already defined")
             line_num+=1
-        elif variable in all_lables_defined:
+        elif variable in all_labels_defined:
             print(f"'Syntax Error' In line no. {line_num}: Lables and Variables can't have same name")
             line_num+=1
         else:
             all_varaibles_defined.append(variable)
             line_num+=1
-    
 
-    
-    
-    
-    
+    elif instruction_entered[0][-1]==":":
+        label_name = instruction_entered[0][:-1]
+        if  label_name in instructions.instructions:
+            print(f"'Syntax Error' In line no. {line_num}: Instruction mnemonic and Labels can't have same name")
+            line_num+=1
+        elif  label_name in all_labels_defined:
+            print(f"'Syntax Error' In line no. {line_num}: This label is already defined")
+            line_num+=1
+        elif  label_name in all_varaibles_defined:
+            print(f"'Syntax Error' In line no. {line_num}: Labels and variables can't have same name")
+            line_num+=1
+        else:
+            labels[label_name] = current_address
+            instruction_starts_from_index = len(instruction_entered[0]) + 1 
+            all_instructions[current_address] = line[instruction_starts_from_index :]
+            variables_defination_finished = 1
+            current_address += 1
