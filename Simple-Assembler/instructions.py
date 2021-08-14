@@ -18,7 +18,7 @@ def typeB_fun(instruction_entered):
     r1= binary_of_registers[instruction_entered[1]][0]
     r= instruction_entered[1]
     binary_of_registers[r][1]= int(instruction_entered[2][1:])
-    imm_string='{0:08b}'.format(binary_of_registers[r][1])
+    imm_string='{0:08b}'.format(binary_of_registers[r][1]) #converting value stored in register
     ml= op_code+r1+imm_string #converted into machine code
 
 
