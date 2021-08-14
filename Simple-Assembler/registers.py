@@ -50,3 +50,7 @@ def typeA_fun(instruction_entered) :
     elif (ml[:5]=="01100"):
         binary_of_registers[r1][1]=binary_of_registers[r2][1] & binary_of_registers[r3][1]
         print(ml)
+
+def typeB_fun(instruction_entered):
+    op_code = instructions.type_B_instructions[instruction_entered[0]]
+    #

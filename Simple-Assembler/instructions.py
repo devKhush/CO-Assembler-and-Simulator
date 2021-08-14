@@ -28,6 +28,6 @@ def typeB_fun(instruction_entered):
             r_value=r_value
         binary_of_registers[r][1]= r_value
     elif(instruction_entered[0]=="mov"):
-        binary_of_registers[r][1]= int(instruction_entered[2][1:])
+        binary_of_registers[r][1]= int(instruction_entered[2][1:],2)
 
     ml= op_code+r1+imm_string #converted into machine code
