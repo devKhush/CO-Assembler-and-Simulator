@@ -16,9 +16,20 @@ type_F_instructions = {'hlt':'10011'}
 def typeB_fun(instruction_entered):
     op_code = instructions.type_B_instructions[instruction_entered[0]]
     r1= binary_of_registers[instruction_entered[1]][0]
-    r= instruction_entered[1]
-    binary_of_registers[r][1]= int(instruction_entered[2][1:])
+    r_value=binary_of_registers[instruction_entered[1]][1]
     imm_string='{0:08b}'.format(binary_of_registers[r][1]) #converting value stored in register
+    r= instruction_entered[1]
+    if(instruction_entered[0]=="ls"):
+        for i in range(0,int(instruction_entered[2][1:])):
+            r_value=r_value>>
+        binary_of_registers[r][1]= r_value
+    elif(instruction_entered[0]=="ls"):
+        for i in range(0,int(instruction_entered[2][1:])):
+            r_value=r_value<<
+        binary_of_registers[r][1]= r_value
+    elif(instruction_entered[0]=="mov"):
+        binary_of_registers[r][1]= int(instruction_entered[2][1:])
+
     ml= op_code+r1+imm_string #converted into machine code
 
 
