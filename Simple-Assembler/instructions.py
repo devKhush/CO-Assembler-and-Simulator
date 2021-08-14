@@ -1,5 +1,5 @@
-# instructions, opcodes, operands, type 
-import registers
+# instructions, opcodes, operands, type
+from registers import *
 
 instructions = ["add","sub","mov","mov","ld","st","mul","div","rs","ls","xor","or","and","not","cmp","jmp","jlt","jgt","je","hlt"]
 opcode = ["00000","00001","00010","00011","00100","00101","00110","00111","01000","01001","01010","01011","01100","01101","01110","01111","10000"]
@@ -17,27 +17,17 @@ def typeB_fun(instruction_entered):
     op_code = instructions.type_B_instructions[instruction_entered[0]]
     r1= binary_of_registers[instruction_entered[1]][0]
     r_value=binary_of_registers[instruction_entered[1]][1]
-        r= instruction_entered[1]
+    r= instruction_entered[1]
     imm_string='{0:08b}'.format(binary_of_registers[r][1]) #converting value stored in register
     if(instruction_entered[0]=="ls"):
         for i in range(0,int(instruction_entered[2][1:])):
-            r_value=r_value>>
+            r_value=r_value
         binary_of_registers[r][1]= r_value
     elif(instruction_entered[0]=="ls"):
         for i in range(0,int(instruction_entered[2][1:])):
-            r_value=r_value<<
+            r_value=r_value
         binary_of_registers[r][1]= r_value
     elif(instruction_entered[0]=="mov"):
         binary_of_registers[r][1]= int(instruction_entered[2][1:])
 
     ml= op_code+r1+imm_string #converted into machine code
-
-
-
-
-
-
-
-
-
-
