@@ -18,4 +18,14 @@ def typeA_fun(instruction_entered) :
     #add function
     if (ml[:5]=="00000"):
         binary_of_registers[r1][1]=binary_of_registers[r2][1]+binary_of_registers[r3][1]
+        if binary_of_registers[r1][1]>255: #overflow:when the sum is more than 255
+            V=1
+            binary_of_registers[r1][1]=0
+    
+    #subtraction function
+    elif (ml[:5]=="00001"):
+        binary_of_registers[r1][1]=binary_of_registers[r2][1]-binary_of_registers[r3][1]
+        if binary_of_registers[r1][1]<0: #overflow : when the sub is less than 0
+            V=1
+            binary_of_registers[r1][1]=0
         
