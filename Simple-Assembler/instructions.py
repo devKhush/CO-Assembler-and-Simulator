@@ -6,12 +6,12 @@ opcode = ["00000","00001","00010","00011","00100","00101","00110","00111","01000
 type = ["A","A","B","C","D","D","A","C","B","B","A","A","A","C","C","E","E","E","E","F"]
 operands = [3,3,2,2,2,2,3,2,2,2,3,3,3,2,2,1,1,1,1,0]
 
-type_A_instructions = ['add','sub','mul','xor','or','and']
-type_B_instructions = ['mov','rs','ls']
-type_C_instructions = ['mov','div','not','cmp']
-type_D_instructions = ['ld','st']
-type_E_instructions = ['jmp','jlt','jgt','je']
-type_F_instructions = ['hlt']
+type_A_instructions = {'add':'00000','sub':'00001','mul':'00110','xor':'01010','or':'01011','and':'01100'}
+type_B_instructions = {'mov':'00010','rs':'01000','ls':'01001'}
+type_C_instructions = {'mov':'00011','div':'00111','not':'01101','cmp':'01110'}
+type_D_instructions = {'ld':'00100','st':'00101'}
+type_E_instructions = {'jmp':'01111','jlt':'10000','jgt':'10001','je':'10010'}
+type_F_instructions = {'hlt':'10011'}
 
 
 
