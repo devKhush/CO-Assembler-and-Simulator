@@ -19,4 +19,5 @@ def typeA_fun(instruction_entered) :
     if (ml[:5]=="00000"):
         binary_of_registers[r1][1]=binary_of_registers[r2][1]+binary_of_registers[r3][1]
         
+binary_of_registers = {'R0':'000', 'R1':'001', 'R2': '010', 'R3': '011', 'R4': '100', 'R5': '101', 'R6': '110'}
 

@@ -7,7 +7,7 @@ type = ["A","A","B","C","D","D","A","C","B","B","A","A","A","C","C","E","E","E",
 operands = [3,3,2,2,2,2,3,2,2,2,3,3,3,2,2,1,1,1,1,0]
 
 type_A_instructions = ['add','sub','mul','xor','or','and']
-type_B_instructions = ['mov','rs','ls','rs','ls']
+type_B_instructions = ['mov','rs','ls']
 type_C_instructions = ['mov','div','not','cmp']
 type_D_instructions = ['ld','st']
 type_E_instructions = ['jmp','jlt','jgt','je']
