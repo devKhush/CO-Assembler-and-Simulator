@@ -6,6 +6,7 @@ program_counter = 0
 halt_found = 0
 all_varaibles_defined =[]
 
+# reads all the instructions entered by the files
 for line in stdin:
     if line == '':
         continue
@@ -16,5 +17,6 @@ for line in stdin:
         print(f"'Syntax Error' In line no. {program_counter}: 'hlt' not being used as last statement")
         break
     
-    if variables_encountered_again==1 and instruction_entered[0]=='var':
+    if instruction_entered[0]=='var' and variables_encountered_again==1:
         print(f"'Syntax Error' In line no. {program_counter}: Variables NOT defined in the beginning")
+    
