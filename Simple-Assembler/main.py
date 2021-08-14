@@ -1,6 +1,6 @@
 from sys import stdin
 import registers
-import instruction_table
+import instructions
 
 all_varaibles_defined =[]
 variables = {} # {'variable_Name': value_in_decimal}
@@ -35,7 +35,7 @@ for line in stdin:
 
     if instruction_entered[0]=='var':
         variable = instruction_entered[1]
-        if variable in instruction_table.instructions:
+        if variable in instructions.instructions:
             print(f"'Syntax Error' In line no. {line_num}: Instruction mnemonic and variables can't have same name")
             line_num+=1
         elif variable in all_varaibles_defined:
