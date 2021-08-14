@@ -14,17 +14,7 @@ type_E_instructions = ['jmp','jlt','jgt','je']
 type_F_instructions = ['hlt']
 
 
-def addition(reg1,reg2,reg3):
-    reg1 = reg2 +reg3
-    if reg1>255:
-        registers.V=1
 
-
-def sub(reg1,reg2,reg3):
-    reg1 = reg2 - reg3
-    if reg1<0:
-        reg1 =0 
-        registers.V=1
 
 
 
