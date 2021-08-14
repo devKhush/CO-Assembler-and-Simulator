@@ -13,6 +13,14 @@ type_D_instructions = {'ld':'00100','st':'00101'}
 type_E_instructions = {'jmp':'01111','jlt':'10000','jgt':'10001','je':'10010'}
 type_F_instructions = {'hlt':'10011'}
 
+def typeB_fun(instruction_entered):
+    op_code = instructions.type_B_instructions[instruction_entered[0]]
+    r1= binary_of_registers[instruction_entered[1]][0]
+    r= instruction_entered[1]
+    binary_of_registers[r][1]= int(instruction_entered[2][1:])
+    imm_string='{0:08b}'.format(binary_of_registers[r][1])
+    ml= op_code+r1+imm_string #converted into machine code
+
 
 
 
