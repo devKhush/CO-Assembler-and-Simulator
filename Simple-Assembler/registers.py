@@ -52,3 +52,22 @@ def typeA_fun(instruction_entered) :
         print(ml)
 
 
+def typeE_fun(instruction_entered,program_counter):
+    op_code = instructions.type_E_instructions[instruction_entered[0]]
+    new_pc = main.labels[instruction_entered[1]]
+    binary_of_location = '{0:08b}'.format(new_pc)
+    ml = op_code + '000' +binary_of_location
+    print(ml)
+    if instruction_entered[0] == 'jmp':        # unconditional jmp
+        return new_pc- 1
+    elif instruction_entered[0] == 'jlt' and L==1:
+        return new_pc-1
+    elif instruction_entered[0] =='jgt' and G==1:
+        return new_pc-1
+    elif instruction_entered[0] =='je' and E==1:
+        return new_pc -1
+    return program_counter
+
+    
+
+
