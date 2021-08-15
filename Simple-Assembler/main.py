@@ -116,7 +116,7 @@ if binary_to_be_generated:
     program_counter = 0
     while program_counter < len(all_instructions.keys()):
         
-    #for address,list in all_instructions.items():   ignore this
+    #for address,list in all_instructions.items():    # ignore this
         instruction_to_be_executed = all_instructions[program_counter][0].split()
         line_num = all_instructions[program_counter][1]
         
