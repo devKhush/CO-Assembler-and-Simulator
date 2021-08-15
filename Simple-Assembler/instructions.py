@@ -12,8 +12,70 @@ type_D_instructions = {'ld':'00100','st':'00101'}
 type_E_instructions = {'jmp':'01111','jlt':'10000','jgt':'10001','je':'10010'}
 type_F_instructions = {'hlt':'10011'}
 
+def typeA_fun(instruction_entered) :
+    op_code = instructions.type_A_instructions[instruction_entered[0]]
+
+    #taking register's binary value from the dictionaries
+    register1_binary= binary_of_registers[instruction_entered[1]][0]
+    register2_binary= binary_of_registers[instruction_entered[2]][0]
+    register3_binary= binary_of_registers[instruction_entered[3]][0]
+    ml= op_code+"00"+register1_binary+register2_binary+register3_binary #converted into machine code 
+
+    #add function
+    if (ml[:5]=="00000"):
+        binary_of_registers[instruction_entered[1]][1] = binary_of_registers[instruction_entered[2]][1]+binary_of_registers[instruction_entered[3]][1]
+        if binary_of_registers[instruction_entered[1]][1]> 65535: #overflow:when the answer is more than 255
+            V=1
+            binary_of_registers[instruction_entered[1]][1] -= 65536      # remove this and set lower 16 bits values into Reg1
+
+    #subtraction function
+    elif (ml[:5]=="00001"):
+        binary_of_registers[instruction_entered[1]][1]=binary_of_registers[instruction_entered[2]][1]-binary_of_registers[instruction_entered[3]][1]
+        if binary_of_registers[instruction_entered[1]][1]<0:      # overflow : when the sub is less than 0
+            V=1
+            binary_of_registers[instruction_entered[1]][1]=0
+
+
+    #multiplication function
+    elif (ml[:5]=="00010"):
+        binary_of_registers[instruction_entered[1]][1]=binary_of_registers[instruction_entered[2]][1]*binary_of_registers[instruction_entered[3]][1]
+        if binary_of_registers[instruction_entered[1]][1]> 65535: #overflow:when the answer is more than 255
+            V=1
+            binary_of_registers[instruction_entered[1]][1] -= 65536  # remove this and set lower 16 bits values into Reg1
+
+    #bitwise XOR
+    elif(ml[:5]=="01010"):
+        binary_of_registers[instruction_entered[1]][1]=binary_of_registers[instruction_entered[2]][1]^binary_of_registers[instruction_entered[3]][1]
+
+    #bitwise OR
+    elif(ml[:5]=="01011"):
+        binary_of_registers[instruction_entered[1]][1]=binary_of_registers[instruction_entered[2]][1] | binary_of_registers[instruction_entered[3]][1]
+
+    #bitwise AND
+    elif (ml[:5]=="01100"):
+        binary_of_registers[instruction_entered[1]][1]=binary_of_registers[instruction_entered[2]][1] & binary_of_registers[instruction_entered[3]][1]
+    print(ml)
+
+
+def typeE_fun(instruction_entered,program_counter):
+    op_code = instructions.type_E_instructions[instruction_entered[0]]
+    new_pc = main.labels[instruction_entered[1]]
+    binary_of_location = '{0:08b}'.format(new_pc)
+    ml = op_code + '000' +binary_of_location
+    print(ml)
+    if instruction_entered[0] == 'jmp':        # unconditional jmp
+        return new_pc- 1
+    elif instruction_entered[0] == 'jlt' and LGE==4:
+        return new_pc-1
+    elif instruction_entered[0] =='jgt' and LGE==2:
+        return new_pc-1
+    elif instruction_entered[0] =='je' and LGE==1:
+        return new_pc -1
+    return program_counter
+
+
 def typeB_fun(instruction_entered):
-    op_code = instructions.type_B_instructions[instruction_entered[0]]
+    op_code = type_B_instructions[instruction_entered[0]]
     register_binary = registers.binary_of_registers[instruction_entered[1]][0]
     register_value = registers.binary_of_registers[instruction_entered[1]][1]
     register_name = instruction_entered[1]
@@ -31,7 +93,7 @@ def typeB_fun(instruction_entered):
 
 def typeC_fun(instruction_entered):
     if instruction_entered[0]=="mov" and instruction_entered[2] =='FLAGS':
-        op_code = instructions.type_C_instructions[instruction_entered[0]]
+        op_code = type_C_instructions[instruction_entered[0]]
         register1_binary= registers.binary_of_registers[instruction_entered[1]][0]
         flags_value =  str(registers.V) +str(registers.LGE)
         ml = op_code + '00000' + register1_binary + '111'
@@ -39,12 +101,15 @@ def typeC_fun(instruction_entered):
         registers.binary_of_registers[instruction_entered[1]][1] = int(flags_value,2)
         return
     
-    op_code = instructions.type_C_instructions[instruction_entered[0]]
+    op_code = type_C_instructions[instruction_entered[0]]
     register1_binary= registers.binary_of_registers[instruction_entered[1]][0]
     register2_binary= registers.binary_of_registers[instruction_entered[2]][0]
     if(instruction_entered[0]=="mov"):
         registers.binary_of_registers[instruction_entered[1]][1] = registers.binary_of_registers[instruction_entered[2]][1]
     elif instruction_entered[0] =='div':
+        if registers.binary_of_registers[instruction_entered[2]][1] ==0:
+            print("Zero Division Error: Cannot divide by zero")
+            return
         registers.binary_of_registers['R0'][1] = registers.binary_of_registers[instruction_entered[1]][1] // registers.binary_of_registers[instruction_entered[2]][1]
         registers.binary_of_registers['R1'][1] = registers.binary_of_registers[instruction_entered[1]][1] % registers.binary_of_registers[instruction_entered[2]][1]
     elif(instruction_entered[0]=="not"):
@@ -66,3 +131,4 @@ def typeF_fun(instruction_entered):
     print(ml)
 
 
+typeC_fun(['mov','R0','R1'])
