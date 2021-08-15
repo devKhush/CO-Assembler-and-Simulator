@@ -36,7 +36,7 @@ for line in stdin:
         print(f"'Syntax Error' In line no. {line_num}: 'hlt' not being used as last statement")
         binary_to_be_generated = False
         line_num+=1
-        break
+        quit()
     
     if instruction_entered[0]=='var' and  variables_defination_finished==1:
         print(f"'Syntax Error' In line no. {line_num}: Variables NOT defined in the beginning")
