@@ -2,9 +2,6 @@ import main
 import instructions
 
 V = 0
-"""L = 0
-G = 0
-E = 0"""
 LGE = 0
 flags = {'FLAGS': '111'}
 binary_of_registers = {'R0': ['000',0], 'R1':['001',0],'R2': ['010',0], 'R3':['011',0], 'R4': ['100',0], 'R5':['101',0], 'R6':['110',0]}
@@ -20,24 +17,24 @@ def typeA_fun(instruction_entered) :
     #add function
     if (ml[:5]=="00000"):
         binary_of_registers[instruction_entered[1]][1] = binary_of_registers[instruction_entered[2]][1]+binary_of_registers[instruction_entered[3]][1]
-        if binary_of_registers[register1_binary][1]>255: #overflow:when the answer is more than 255
+        if binary_of_registers[instruction_entered[1]][1]> 65535: #overflow:when the answer is more than 255
             V=1
-            binary_of_registers[register1_binary][1]=0      # remove this and set lower 16 bits values into Reg1
+            binary_of_registers[instruction_entered[1]][1] -= 65536      # remove this and set lower 16 bits values into Reg1
 
     #subtraction function
     elif (ml[:5]=="00001"):
         binary_of_registers[instruction_entered[1]][1]=binary_of_registers[instruction_entered[2]][1]-binary_of_registers[instruction_entered[3]][1]
-        if binary_of_registers[register1_binary][1]<0:      # overflow : when the sub is less than 0
+        if binary_of_registers[instruction_entered[1]][1]<0:      # overflow : when the sub is less than 0
             V=1
-            binary_of_registers[register1_binary][1]=0
+            binary_of_registers[instruction_entered[1]][1]=0
 
 
     #multiplication function
     elif (ml[:5]=="00010"):
         binary_of_registers[instruction_entered[1]][1]=binary_of_registers[instruction_entered[2]][1]*binary_of_registers[instruction_entered[3]][1]
-        if binary_of_registers[instruction_entered[1]][1]>255: #overflow:when the answer is more than 255
+        if binary_of_registers[instruction_entered[1]][1]> 65535: #overflow:when the answer is more than 255
             V=1
-            binary_of_registers[register1_binary][1]=0  # remove this and set lower 16 bits values into Reg1
+            binary_of_registers[instruction_entered[1]][1] -= 65536  # remove this and set lower 16 bits values into Reg1
 
     #bitwise XOR
     elif(ml[:5]=="01010"):
@@ -49,7 +46,7 @@ def typeA_fun(instruction_entered) :
 
     #bitwise AND
     elif (ml[:5]=="01100"):
-        binary_of_registers[register1_binary][1]=binary_of_registers[register2_binary][1] & binary_of_registers[register3_binary][1]
+        binary_of_registers[instruction_entered[1]][1]=binary_of_registers[instruction_entered[2]][1] & binary_of_registers[instruction_entered[3]][1]
         print(ml)
 
 
