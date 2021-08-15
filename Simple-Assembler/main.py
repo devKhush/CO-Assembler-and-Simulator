@@ -122,7 +122,7 @@ for variableName in all_varaibles_defined:
 def typeD_fun(instruction_entered,labels):
     op_code = instructions.type_D_instructions[instruction_entered[0]]
     register1_binary= registers.binary_of_registers[instruction_entered[1]][0]
-    memo_addr = labels[instruction_entered[2]]
+    memo_addr = variables[instruction_entered[2]]
     memo_addr_in_binary ='{0:08b}'.format(memo_addr)
     if(instruction_entered[0]=="ld"):
         registers.binary_of_registers[instruction_entered[1]][1] = memo_addr
