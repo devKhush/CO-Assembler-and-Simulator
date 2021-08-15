@@ -119,6 +119,19 @@ if binary_to_be_generated:
         current_address+=1
 
 
+def typeD_fun(instruction_entered,labels):
+    op_code = instructions.type_D_instructions[instruction_entered[0]]
+    register1_binary= registers.binary_of_registers[instruction_entered[1]][0]
+    memo_addr = labels[instruction_entered[2]]
+    memo_addr_in_binary ='{0:08b}'.format(memo_addr)
+    if(instruction_entered[0]=="ld"):
+        registers.binary_of_registers[instruction_entered[1]][1] = memo_addr
+    elif(instruction_entered[0]=="st"):
+        labels[instruction_entered[2]] = registers.binary_of_registers[instruction_entered[1]][1]
+    ml = op_code + register1_binary + memo_addr_in_binary 
+    print(ml)
+
+
 if binary_to_be_generated:
     program_counter = 0
     while program_counter < len(all_instructions.keys()):
@@ -204,7 +217,7 @@ if binary_to_be_generated:
             elif instruction_to_be_executed[2] not in all_varaibles_defined:
                 print(f"'Syntax Error' In line no. {line_num }: Variable '{instruction_to_be_executed[2]}' not defined")
                 quit()
-            registers.typeD_fun(instruction_to_be_executed)
+            typeD_fun(instruction_to_be_executed,labels)
 
 
         elif instruction_to_be_executed[0] in instructions.type_E_instructions:
@@ -217,7 +230,9 @@ if binary_to_be_generated:
             program_counter = registers.typeE_fun(instruction_to_be_executed,program_counter)
 
 
-        elif instruction_to_be_executed in instructions.type_F_instructions:
-            instructions.typeF_fun(instruction_to_be_executed)
+        elif instruction_to_be_executed[0] in instructions.type_F_instructions:
+            ml = '10011'+ ('0'*11)
+            print(ml)
+            #instructions.typeF_fun(instruction_to_be_executed)
         
         program_counter+=1
