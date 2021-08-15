@@ -38,14 +38,14 @@ def typeC_fun(instruction_entered):
     elif instruction_entered[0] =='div':
         binary_of_registers['R0'][1] = binary_of_registers[instruction_entered[1]][1] // binary_of_registers[instruction_entered[2]][1]
         binary_of_registers['R1'][1] = binary_of_registers[instruction_entered[1]][1] % binary_of_registers[instruction_entered[2]][1]
-    elif(instruction_entered[0]=="not"):       #place overflow check
-        binary_of_registers[instruction_entered[1]][1] = binary_of_registers[instruction_entered[2]][1] #bitwise not
+    elif(instruction_entered[0]=="not"):        #place overflow check
+        binary_of_registers[instruction_entered[1]][1] = ~binary_of_registers[instruction_entered[2]][1] #bitwise not
     elif(instruction_entered[0]=="cmp"):
         if(binary_of_registers[instruction_entered[1]][1]==binary_of_registers[instruction_entered[2]][1]):
             E=1
-        elif(binary_of_registers[instruction_entered[1]][1]<binary_of_registers[instruction_entered[2]][1]):
+        elif(binary_of_registers[instruction_entered[1]][1] < binary_of_registers[instruction_entered[2]][1]):
             L=1
-        elif(binary_of_registers[instruction_entered[1]][1]>binary_of_registers[instruction_entered[2]][1]):
+        elif(binary_of_registers[instruction_entered[1]][1] > binary_of_registers[instruction_entered[2]][1]):
             G=1
     ml= op_code+"00000"+register1_binary+register2_binary #converted into machine code
     print(ml)
@@ -55,4 +55,4 @@ def typeC_fun(instruction_entered):
 def typeF_fun(instruction_entered):
     op_code = instructions.type_F_instructions[instruction_entered[0]]
     ml=op_code+"00000000000"
-    exit()
+    print(ml)
