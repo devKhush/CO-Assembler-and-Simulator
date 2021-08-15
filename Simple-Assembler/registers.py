@@ -48,5 +48,7 @@ def typeA_fun(instruction_entered) :
 
     #bitwise AND
     elif (ml[:5]=="01100"):
-        binary_of_registers[instruction_entered[1]][1]=binary_of_registers[instruction_entered[2]][1] & binary_of_registers[instruction_entered[3]][1]
+        binary_of_registers[r1][1]=binary_of_registers[r2][1] & binary_of_registers[r3][1]
         print(ml)
+
+
