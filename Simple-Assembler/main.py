@@ -23,7 +23,7 @@ line_num = 1
 halt_found = 0
 current_address = 0
 
-#inp = open('input.txt')
+inp = open('input.txt')
 
 for line in stdin:
     if line == '\n':
@@ -63,7 +63,11 @@ for line in stdin:
 
     elif instruction_entered[0][-1]==":":
         label_name = instruction_entered[0][:-1]
-        if  label_name in instructions.instructions:
+        if len(instruction_entered)==1:
+            print(f"'Syntax Error' In line no. {line_num}: Invalid label")
+            binary_to_be_generated = False
+            line_num+=1
+        elif  label_name in instructions.instructions:
             print(f"'Syntax Error' In line no. {line_num}: Instruction mnemonic and Labels can't have same name")
             binary_to_be_generated = False
             line_num+=1
@@ -73,6 +77,10 @@ for line in stdin:
             line_num+=1
         elif  label_name in all_varaibles_defined:
             print(f"'Syntax Error' In line no. {line_num}: Labels and variables can't have same name")
+            binary_to_be_generated = False
+            line_num+=1
+        elif instruction_entered[1] not in instructions.instructions:
+            print(f"'Syntax Error' In line no. {line_num}: Typo in Instruction name")
             binary_to_be_generated = False
             line_num+=1
         else:
