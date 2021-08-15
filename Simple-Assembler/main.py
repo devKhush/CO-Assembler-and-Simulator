@@ -23,7 +23,7 @@ line_num = 1
 halt_found = 0
 current_address = 0
 
-inp = open('input.txt')
+#inp = open('input.txt')
 
 for line in stdin:
     if line == '\n':
@@ -113,98 +113,105 @@ if binary_to_be_generated:
 
 
 if binary_to_be_generated:
-    for address,list in all_instructions.items():
-        instruction_to_be_executed = list[0].split()
+    program_counter = 0
+    while program_counter < len(all_instructions.keys()):
+        
+    #for address,list in all_instructions.items():
+        instruction_to_be_executed = all_instructions[program_counter][0].split()
+        line_num = all_instructions[program_counter][1]
         
         if instruction_to_be_executed[0] in instructions.type_A_instructions:
             if len(instruction_to_be_executed)!=4:
-                print(f"'Syntax Error' In line no. {list[1]}: Wrong syntax used for Type-A instructions")
+                print(f"'Syntax Error' In line no. {line_num}: Wrong syntax used for Type-A instructions")
                 quit()
 
             elif (instruction_to_be_executed[1] not in registers.binary_of_registers.keys()) or (instruction_to_be_executed[2] not in registers.binary_of_registers.keys()) or (instruction_to_be_executed[3] not in registers.binary_of_registers.keys()):
-                print(f"'Syntax Error' In line no. {list[1]}: Register not supported by ISA")
+                print(f"'Syntax Error' In line no. {line_num }: Register not supported by ISA")
                 quit()
             registers.typeA_fun(instruction_to_be_executed)
         
 
         elif (instruction_to_be_executed[0] in instructions.type_B_instructions) and (instruction_to_be_executed[0]!='mov'):
             if len(instruction_to_be_executed)!=3:
-                print(f"'Syntax Error' In line no. {list[1]}: Wrong syntax used for Type-B instructions")
+                print(f"'Syntax Error' In line no. {line_num }: Wrong syntax used for Type-B instructions")
                 quit()
             elif instruction_to_be_executed[2][0]!='$' or ( not instruction_to_be_executed[2][1:].isdecimal()):
-                print(f"'Syntax Error' In line no. {list[1]}: Wrong syntax used for Type-B instructions")
+                print(f"'Syntax Error' In line no. {line_num }: Wrong syntax used for Type-B instructions")
                 quit()
             elif (instruction_to_be_executed[1] not in registers.binary_of_registers.keys()):
-                print(f"'Syntax Error' In line no. {list[1]}: Register not supported by ISA")
+                print(f"'Syntax Error' In line no. {line_num }: Register not supported by ISA")
                 quit()
             elif ( int(instruction_to_be_executed[2][1:])>255 or int(instruction_to_be_executed[2][1:])<0):
-                print(f"'Syntax Error' In line no. {list[1]}: Immediate value out of Range")
+                print(f"'Syntax Error' In line no. {line_num }: Immediate value out of Range")
                 quit()
-            registers.typeB_fun(instruction_to_be_executed)
+            instructions.typeB_fun(instruction_to_be_executed)
         
 
         elif (instruction_to_be_executed[0] in instructions.type_C_instructions) and (instruction_to_be_executed[0]!='mov'):
             if len(instruction_to_be_executed)!=3:
-                print(f"'Syntax Error' In line no. {list[1]}: Wrong syntax used for Type-C instructions")
+                print(f"'Syntax Error' In line no. {line_num }: Wrong syntax used for Type-C instructions")
                 quit()
 
             elif (instruction_to_be_executed[1] not in registers.binary_of_registers.keys()) or (instruction_to_be_executed[2] not in registers.binary_of_registers.keys()):
-                print(f"'Syntax Error' In line no. {list[1]}: Register not supported by ISA")
+                print(f"'Syntax Error' In line no. {line_num }: Register not supported by ISA")
                 quit()
-            registers.typeC_fun(instruction_to_be_executed)
+            instructions.typeC_fun(instruction_to_be_executed)
 
         
         elif instruction_to_be_executed[0]=='mov':
             if instruction_to_be_executed[2][0]=='$':
                 if len(instruction_to_be_executed)!=3:
-                    print(f"'Syntax Error' In line no. {list[1]}: Wrong syntax used for Type-B instructions")
+                    print(f"'Syntax Error' In line no. {line_num }: Wrong syntax used for Type-B instructions")
                     quit()
                 elif instruction_to_be_executed[2][0]!='$' or ( not instruction_to_be_executed[2][1:].isdecimal()):
-                    print(f"'Syntax Error' In line no. {list[1]}: Wrong syntax used for Type-B instructions")
+                    print(f"'Syntax Error' In line no. {line_num }: Wrong syntax used for Type-B instructions")
                     quit()
                 elif (instruction_to_be_executed[1] not in registers.binary_of_registers.keys()):
-                    print(f"'Syntax Error' In line no. {list[1]}: Register not supported by ISA")
+                    print(f"'Syntax Error' In line no. {line_num }: Register not supported by ISA")
                     quit()
                 elif (int(instruction_to_be_executed[2][1:])>255 or int(instruction_to_be_executed[2][1:])<0):
-                    print(f"'Syntax Error' In line no. {list[1]}: Immediate value out of Range")
+                    print(f"'Syntax Error' In line no. {line_num }: Immediate value out of Range")
                     quit()
-                registers.typeB_fun(instruction_to_be_executed)
+                instructions.typeB_fun(instruction_to_be_executed)
             else:
                 if len(instruction_to_be_executed)!=3:
-                    print(f"'Syntax Error' In line no. {list[1]}: Wrong syntax used for Type-C instructions")
+                    print(f"'Syntax Error' In line no. {line_num }: Wrong syntax used for Type-C instructions")
                     quit()
 
                 elif (instruction_to_be_executed[1] not in registers.binary_of_registers.keys()) or (instruction_to_be_executed[2] not in registers.binary_of_registers.keys()):
-                    print(f"'Syntax Error' In line no. {list[1]}: Register not supported by ISA")
+                    print(f"'Syntax Error' In line no. {line_num }: Register not supported by ISA")
                     quit()
-                registers.typeC_fun(instruction_to_be_executed)
+                instructions.typeC_fun(instruction_to_be_executed)
 
 
         elif instruction_to_be_executed[0] in instructions.type_D_instructions:
             if len(instruction_to_be_executed)!=3:
-                print(f"'Syntax Error' In line no. {list[1]}: Wrong syntax used for Type-D instructions")
+                print(f"'Syntax Error' In line no. {line_num }: Wrong syntax used for Type-D instructions")
                 quit()
             elif instruction_to_be_executed[1] not in registers.binary_of_registers.keys():
-                print(f"'Syntax Error' In line no. {list[1]}: Register not supported by ISA")
+                print(f"'Syntax Error' In line no. {line_num }: Register not supported by ISA")
                 quit()
             elif instruction_to_be_executed[2] not in all_varaibles_defined:
-                print(f"'Syntax Error' In line no. {list[1]}: Variable '{instruction_to_be_executed[2]}' not defined")
+                print(f"'Syntax Error' In line no. {line_num }: Variable '{instruction_to_be_executed[2]}' not defined")
                 quit()
             registers.typeD_fun(instruction_to_be_executed)
 
 
         elif instruction_to_be_executed[0] in instructions.type_E_instructions:
             if len(instruction_to_be_executed)!=2:
-                print(f"'Syntax Error' In line no. {list[1]}: Wrong syntax used for Type-E instructions")
+                print(f"'Syntax Error' In line no. {line_num }: Wrong syntax used for Type-E instructions")
                 quit()
             elif (instruction_to_be_executed[1] not in all_labels_defined):
-                print(f"'Syntax Error' In line no. {list[1]}: Label '{instruction_to_be_executed}' not defined")
+                print(f"'Syntax Error' In line no. {line_num }: Label '{instruction_to_be_executed[1]}' not defined")
                 quit()
-            registers.typeE_fun(instruction_to_be_executed)
+            program_counter = registers.typeE_fun(instruction_to_be_executed,program_counter)
 
 
         elif instruction_to_be_executed in instructions.type_F_instructions:
-            registers.typeF_fun(instruction_to_be_executed)
+            instructions.typeF_fun(instruction_to_be_executed)
+        
+        program_counter+=1
+
         
             
 
