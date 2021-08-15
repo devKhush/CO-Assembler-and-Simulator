@@ -113,10 +113,10 @@ if current_address>256:
     print(f"'General Syntax Error' In line no. {line_num}: More than 256 instructions encountered")
     binary_to_be_generated = False
 
-if binary_to_be_generated:
-    for variableName in all_varaibles_defined:
-        variables[variableName] = current_address
-        current_address+=1
+
+for variableName in all_varaibles_defined:
+    variables[variableName] = current_address
+    current_address+=1
 
 
 def typeD_fun(instruction_entered,labels):
@@ -132,10 +132,9 @@ def typeD_fun(instruction_entered,labels):
     print(ml)
 
 
-if binary_to_be_generated:
+if True:
     program_counter = 0
     while program_counter < len(all_instructions.keys()):
-        
     #for address,list in all_instructions.items():    # ignore this
         instruction_to_be_executed = all_instructions[program_counter][0].split()
         line_num = all_instructions[program_counter][1]
@@ -143,96 +142,143 @@ if binary_to_be_generated:
         if instruction_to_be_executed[0] in instructions.type_A_instructions:
             if len(instruction_to_be_executed)!=4:
                 print(f"'Syntax Error' In line no. {line_num}: Wrong syntax used for Type-A instructions")
-                quit()
-
+                binary_to_be_generated = False
+                program_counter+=1
+                continue
             elif (instruction_to_be_executed[1] not in registers.binary_of_registers.keys()) or (instruction_to_be_executed[2] not in registers.binary_of_registers.keys()) or (instruction_to_be_executed[3] not in registers.binary_of_registers.keys()):
                 print(f"'Syntax Error' In line no. {line_num }: Register not supported by ISA")
-                quit()
-            registers.typeA_fun(instruction_to_be_executed)
+                program_counter+=1
+                binary_to_be_generated = False
+                continue
+            if binary_to_be_generated:
+                instructions.typeA_fun(instruction_to_be_executed)
         
 
         elif (instruction_to_be_executed[0] in instructions.type_B_instructions) and (instruction_to_be_executed[0]!='mov'):
             if len(instruction_to_be_executed)!=3:
                 print(f"'Syntax Error' In line no. {line_num }: Wrong syntax used for Type-B instructions")
-                quit()
+                program_counter+=1
+                binary_to_be_generated = False
+                continue
             elif instruction_to_be_executed[2][0]!='$' or ( not instruction_to_be_executed[2][1:].isdecimal()):
                 print(f"'Syntax Error' In line no. {line_num }: Wrong syntax used for Type-B instructions")
-                quit()
+                program_counter+=1
+                binary_to_be_generated = False
+                continue
             elif (instruction_to_be_executed[1] not in registers.binary_of_registers.keys()):
                 print(f"'Syntax Error' In line no. {line_num }: Register not supported by ISA")
-                quit()
+                program_counter+=1
+                binary_to_be_generated = False
+                continue
             elif ( int(instruction_to_be_executed[2][1:])>255 or int(instruction_to_be_executed[2][1:])<0):
                 print(f"'Syntax Error' In line no. {line_num }: Immediate value out of Range")
-                quit()
-            instructions.typeB_fun(instruction_to_be_executed)
+                program_counter+=1
+                binary_to_be_generated = False
+                continue
+            if binary_to_be_generated:
+                instructions.typeB_fun(instruction_to_be_executed)
         
 
         elif (instruction_to_be_executed[0] in instructions.type_C_instructions) and (instruction_to_be_executed[0]!='mov'):
             if len(instruction_to_be_executed)!=3:
                 print(f"'Syntax Error' In line no. {line_num }: Wrong syntax used for Type-C instructions")
-                quit()
+                program_counter+=1
+                binary_to_be_generated = False
+                continue
 
             elif (instruction_to_be_executed[1] not in registers.binary_of_registers.keys()) or (instruction_to_be_executed[2] not in registers.binary_of_registers.keys()):
                 print(f"'Syntax Error' In line no. {line_num }: Register not supported by ISA")
-                quit()
-            instructions.typeC_fun(instruction_to_be_executed)
+                program_counter+=1
+                binary_to_be_generated = False
+                continue
+            if binary_to_be_generated:
+                instructions.typeC_fun(instruction_to_be_executed)
 
         
         elif instruction_to_be_executed[0]=='mov':
             if instruction_to_be_executed[2][0]=='$':
                 if len(instruction_to_be_executed)!=3:
                     print(f"'Syntax Error' In line no. {line_num }: Wrong syntax used for Type-B instructions")
-                    quit()
+                    program_counter+=1
+                    binary_to_be_generated = False
+                    continue
                 elif instruction_to_be_executed[2][0]!='$' or ( not instruction_to_be_executed[2][1:].isdecimal()):
                     print(f"'Syntax Error' In line no. {line_num }: Wrong syntax used for Type-B instructions")
-                    quit()
+                    program_counter+=1
+                    binary_to_be_generated = False
+                    continue
                 elif (instruction_to_be_executed[1] not in registers.binary_of_registers.keys()):
                     print(f"'Syntax Error' In line no. {line_num }: Register not supported by ISA")
-                    quit()
+                    program_counter+=1
+                    binary_to_be_generated = False
+                    continue
                 elif (int(instruction_to_be_executed[2][1:])>255 or int(instruction_to_be_executed[2][1:])<0):
                     print(f"'Syntax Error' In line no. {line_num }: Immediate value out of Range")
-                    quit()
-                instructions.typeB_fun(instruction_to_be_executed)
+                    program_counter+=1
+                    binary_to_be_generated = False
+                    continue
+                if binary_to_be_generated:
+                    instructions.typeB_fun(instruction_to_be_executed)
             else:
                 if len(instruction_to_be_executed)!=3:
                     print(f"'Syntax Error' In line no. {line_num }: Wrong syntax used for Type-C instructions")
-                    quit()
+                    program_counter+=1
+                    binary_to_be_generated = False
+                    continue
 
                 elif (instruction_to_be_executed[1] not in registers.binary_of_registers.keys()) or (instruction_to_be_executed[2] not in registers.binary_of_registers.keys()):
                     print(f"'Syntax Error' In line no. {line_num }: Register not supported by ISA")
-                    quit()
+                    program_counter+=1
+                    binary_to_be_generated = False
+                    continue
                 elif (instruction_to_be_executed[1] not in registers.binary_of_registers.keys()) or (instruction_to_be_executed[2] not in registers.flags.keys()):
                     print(f"'Syntax Error' In line no. {line_num }: Register not supported by ISA")
-                    quit()
-                instructions.typeC_fun(instruction_to_be_executed)
+                    program_counter+=1
+                    binary_to_be_generated = False
+                    continue
+                if binary_to_be_generated:
+                    instructions.typeC_fun(instruction_to_be_executed)
 
 
         elif instruction_to_be_executed[0] in instructions.type_D_instructions:
             if len(instruction_to_be_executed)!=3:
                 print(f"'Syntax Error' In line no. {line_num }: Wrong syntax used for Type-D instructions")
-                quit()
+                program_counter+=1
+                binary_to_be_generated = False
+                continue
             elif instruction_to_be_executed[1] not in registers.binary_of_registers.keys():
                 print(f"'Syntax Error' In line no. {line_num }: Register not supported by ISA")
-                quit()
+                program_counter+=1
+                binary_to_be_generated = False
+                continue
             elif instruction_to_be_executed[2] not in all_varaibles_defined:
                 print(f"'Syntax Error' In line no. {line_num }: Variable '{instruction_to_be_executed[2]}' not defined")
-                quit()
-            typeD_fun(instruction_to_be_executed,labels)
+                program_counter+=1
+                binary_to_be_generated = False
+                continue
+            if binary_to_be_generated:
+                typeD_fun(instruction_to_be_executed,labels)
 
 
         elif instruction_to_be_executed[0] in instructions.type_E_instructions:
             if len(instruction_to_be_executed)!=2:
                 print(f"'Syntax Error' In line no. {line_num }: Wrong syntax used for Type-E instructions")
-                quit()
+                program_counter+=1
+                binary_to_be_generated = False
+                continue
             elif (instruction_to_be_executed[1] not in all_labels_defined):
                 print(f"'Syntax Error' In line no. {line_num }: Label '{instruction_to_be_executed[1]}' not defined")
-                quit()
-            program_counter = registers.typeE_fun(instruction_to_be_executed,program_counter)
+                program_counter+=1
+                binary_to_be_generated = False
+                continue
+            if binary_to_be_generated:
+                program_counter = instructions.typeE_fun(instruction_to_be_executed,program_counter)
 
 
         elif instruction_to_be_executed[0] in instructions.type_F_instructions:
-            ml = '10011'+ ('0'*11)
-            print(ml)
-            #instructions.typeF_fun(instruction_to_be_executed)
+            if binary_to_be_generated:
+                ml = '10011'+ ('0'*11)
+                print(ml)
+                #instructions.typeF_fun(instruction_to_be_executed)
         
         program_counter+=1
