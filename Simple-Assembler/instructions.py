@@ -15,27 +15,31 @@ type_F_instructions = {'hlt':'10011'}
 
 def typeB_fun(instruction_entered):
     op_code = instructions.type_B_instructions[instruction_entered[0]]
-    r1= binary_of_registers[instruction_entered[1]][0]
-    r_value=binary_of_registers[instruction_entered[1]][1]
-    r= instruction_entered[1]
-    imm_string='{0:08b}'.format(instruction_entered[2][1:]) #converting value stored in register
+    register_binary = binary_of_registers[instruction_entered[1]][0]
+    register_value = binary_of_registers[instruction_entered[1]][1]
+    register_name = instruction_entered[1]
+    imm_string='{0:08b}'.format(int(instruction_entered[2][1:]))    #converting value stored in register
     if(instruction_entered[0]=="rs"):
-        binary_of_registers[r][1]= r_value >> int(instruction_entered[2][1:],2) #place overflow check
+        binary_of_registers[register_name][1]= register_value >> int(instruction_entered[2][1:]) #place overflow check
     elif(instruction_entered[0]=="ls"):
-        binary_of_registers[r][1]= r_value << int(instruction_entered[2][1:],2) #place overflow check
+        binary_of_registers[register_name][1]= register_value << int(instruction_entered[2][1:]) #place overflow check
     elif(instruction_entered[0]=="mov"):
-        binary_of_registers[r][1]= int(instruction_entered[2][1:],2)
-    ml= op_code+r1+imm_string #converted into machine code
+        binary_of_registers[register_name][1]= int(instruction_entered[2][1:])
+    ml= op_code+register_binary+imm_string #converted into machine code
+    print(ml)
 
-    
+
 def typeC_fun(instruction_entered):
     op_code = instructions.type_C_instructions[instruction_entered[0]]
-    r1= binary_of_registers[instruction_entered[1]][0]
-    r2= binary_of_registers[instruction_entered[2]][0]
+    register1_binary= binary_of_registers[instruction_entered[1]][0]
+    register2_binary= binary_of_registers[instruction_entered[2]][0]
     if(instruction_entered[0]=="mov"):
-        binary_of_registers[instruction_entered[1]][1]=binary_of_registers[instruction_entered[2]][1]
-    elif(instruction_entered[0]=="not"): #place overflow check
-        binary_of_registers[instruction_entered[1]][1]=binary_of_registers[instruction_entered[2]][1] #bitwise not
+        binary_of_registers[instruction_entered[1]][1] = binary_of_registers[instruction_entered[2]][1]
+    elif instruction_entered[0] =='div':
+        binary_of_registers['R0'][1] = binary_of_registers[instruction_entered[1]][1] // binary_of_registers[instruction_entered[2]][1]
+        binary_of_registers['R1'][1] = binary_of_registers[instruction_entered[1]][1] % binary_of_registers[instruction_entered[2]][1]
+    elif(instruction_entered[0]=="not"):       #place overflow check
+        binary_of_registers[instruction_entered[1]][1] = binary_of_registers[instruction_entered[2]][1] #bitwise not
     elif(instruction_entered[0]=="cmp"):
         if(binary_of_registers[instruction_entered[1]][1]==binary_of_registers[instruction_entered[2]][1]):
             E=1
@@ -43,7 +47,8 @@ def typeC_fun(instruction_entered):
             L=1
         elif(binary_of_registers[instruction_entered[1]][1]>binary_of_registers[instruction_entered[2]][1]):
             G=1
-    ml= op_code+"00000"+r1+r2 #converted into machine code
+    ml= op_code+"00000"+register1_binary+register2_binary #converted into machine code
+    print(ml)
 
 
 
