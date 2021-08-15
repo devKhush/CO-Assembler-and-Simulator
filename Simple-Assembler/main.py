@@ -28,7 +28,6 @@ current_address = 0
 for line in stdin:
     if line == '\n':
         line_num+=1
-        continue
 
     instruction_entered = line.split()  #list
 
