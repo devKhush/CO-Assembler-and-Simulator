@@ -1,4 +1,4 @@
-import main
+#import main
 import instructions
 
 V = 0
