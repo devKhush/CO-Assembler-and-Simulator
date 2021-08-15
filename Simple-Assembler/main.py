@@ -90,13 +90,13 @@ for line in stdin:
             current_address += 1 
             line_num+=1
             if instruction_entered[1]=="hlt": # label is holding hlt instruction
-                halt_found==1
+                halt_found = 1
     
     elif instruction_entered[0] not in instructions.instructions:
         print(f"'Syntax Error' In line no. {line_num}: Typo in Instruction name")
         binary_to_be_generated = False
         line_num+=1
-    
+        
     elif instruction_entered[0] in instructions.instructions:
         variables_defination_finished =1
         all_instructions[current_address] = [line,line_num]
@@ -104,6 +104,8 @@ for line in stdin:
         current_address +=1
         if instruction_entered[0]=="hlt":
             halt_found=1
+
+
 
 if halt_found==0:
     print(f"'Syntax Error' In line no. {line_num}: Missing 'hlt' instruction")
