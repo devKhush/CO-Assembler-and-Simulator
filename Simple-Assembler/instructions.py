@@ -18,16 +18,36 @@ def typeB_fun(instruction_entered):
     r1= binary_of_registers[instruction_entered[1]][0]
     r_value=binary_of_registers[instruction_entered[1]][1]
     r= instruction_entered[1]
-    imm_string='{0:08b}'.format(binary_of_registers[r][1]) #converting value stored in register
-    if(instruction_entered[0]=="ls"):
-        for i in range(0,int(instruction_entered[2][1:])):
-            r_value=r_value
-        binary_of_registers[r][1]= r_value
+    imm_string='{0:08b}'.format(instruction_entered[2][1:]) #converting value stored in register
+    if(instruction_entered[0]=="rs"):
+        binary_of_registers[r][1]= r_value >> int(instruction_entered[2][1:],2) #place overflow check
     elif(instruction_entered[0]=="ls"):
-        for i in range(0,int(instruction_entered[2][1:])):
-            r_value=r_value
-        binary_of_registers[r][1]= r_value
+        binary_of_registers[r][1]= r_value << int(instruction_entered[2][1:],2) #place overflow check
     elif(instruction_entered[0]=="mov"):
         binary_of_registers[r][1]= int(instruction_entered[2][1:],2)
-
     ml= op_code+r1+imm_string #converted into machine code
+
+    
+def typeC_fun(instruction_entered):
+    op_code = instructions.type_C_instructions[instruction_entered[0]]
+    r1= binary_of_registers[instruction_entered[1]][0]
+    r2= binary_of_registers[instruction_entered[2]][0]
+    if(instruction_entered[0]=="mov"):
+        binary_of_registers[instruction_entered[1]][1]=binary_of_registers[instruction_entered[2]][1]
+    elif(instruction_entered[0]=="not"): #place overflow check
+        binary_of_registers[instruction_entered[1]][1]=binary_of_registers[instruction_entered[2]][1] #bitwise not
+    elif(instruction_entered[0]=="cmp"):
+        if(binary_of_registers[instruction_entered[1]][1]==binary_of_registers[instruction_entered[2]][1]):
+            E=1
+        elif(binary_of_registers[instruction_entered[1]][1]<binary_of_registers[instruction_entered[2]][1]):
+            L=1
+        elif(binary_of_registers[instruction_entered[1]][1]>binary_of_registers[instruction_entered[2]][1]):
+            G=1
+    ml= op_code+"00000"+r1+r2 #converted into machine code
+
+
+
+def typeF_fun(instruction_entered):
+    op_code = instructions.type_F_instructions[instruction_entered[0]]
+    ml=op_code+"00000000000"
+    exit()
