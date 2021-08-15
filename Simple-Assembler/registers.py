@@ -64,4 +64,12 @@ def typeE_fun(instruction_entered,program_counter):
         return new_pc-1
     elif instruction_entered[0] =='je' and LGE==1:
         return new_pc -1
+<<<<<<< HEAD
     return program_counter
+=======
+    return program_counter
+
+    
+
+
+>>>>>>> d2b2d8ac85360e136f8a565ddf5baaa9cfb2bfed
