@@ -21,12 +21,12 @@ def typeA_fun(instruction_entered) :
         binary_of_registers[instruction_entered[1]][1] = binary_of_registers[instruction_entered[2]][1]+binary_of_registers[instruction_entered[3]][1]
         if binary_of_registers[r1][1]>255: #overflow:when the answer is more than 255
             V=1
-            binary_of_registers[r1][1]=0    # remove this and set lower 16 bits values into Reg1
+            binary_of_registers[r1][1]=0      # remove this and set lower 16 bits values into Reg1
 
     #subtraction function
     elif (ml[:5]=="00001"):
         binary_of_registers[instruction_entered[1]][1]=binary_of_registers[instruction_entered[2]][1]-binary_of_registers[instruction_entered[3]][1]
-        if binary_of_registers[r1][1]<0: #overflow : when the sub is less than 0
+        if binary_of_registers[r1][1]<0:      # overflow : when the sub is less than 0
             V=1
             binary_of_registers[r1][1]=0
 
