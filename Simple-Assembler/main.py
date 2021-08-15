@@ -122,7 +122,7 @@ for variableName in all_varaibles_defined:
     current_address+=1
 
 
-def typeD_fun(instruction_entered,labels):
+def typeD_fun(instruction_entered,varaibles):
     op_code = instructions.type_D_instructions[instruction_entered[0]]
     register1_binary= registers.binary_of_registers[instruction_entered[1]][0]
     memo_addr = variables[instruction_entered[2]]
@@ -130,7 +130,7 @@ def typeD_fun(instruction_entered,labels):
     if(instruction_entered[0]=="ld"):
         registers.binary_of_registers[instruction_entered[1]][1] = memo_addr
     elif(instruction_entered[0]=="st"):
-        labels[instruction_entered[2]] = registers.binary_of_registers[instruction_entered[1]][1]
+        varaibles[instruction_entered[2]] = registers.binary_of_registers[instruction_entered[1]][1]
     ml = op_code + register1_binary + memo_addr_in_binary 
     print(ml)
 
@@ -276,7 +276,7 @@ if True:
                 binary_to_be_generated = False
                 continue
             if binary_to_be_generated:
-                typeD_fun(instruction_to_be_executed,labels)
+                typeD_fun(instruction_to_be_executed,variables)
 
 
         elif instruction_to_be_executed[0] in instructions.type_E_instructions:
