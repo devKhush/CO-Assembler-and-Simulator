@@ -1,5 +1,6 @@
 # instructions, opcodes, operands, type
-from registers import *
+import registers
+
 
 instructions = ["add","sub","mov","mov","ld","st","mul","div","rs","ls","xor","or","and","not","cmp","jmp","jlt","jgt","je","hlt"]
 opcode = ["00000","00001","00010","00011","00100","00101","00110","00111","01000","01001","01010","01011","01100","01101","01110","01111","10000"]
@@ -15,38 +16,47 @@ type_F_instructions = {'hlt':'10011'}
 
 def typeB_fun(instruction_entered):
     op_code = instructions.type_B_instructions[instruction_entered[0]]
-    register_binary = binary_of_registers[instruction_entered[1]][0]
-    register_value = binary_of_registers[instruction_entered[1]][1]
+    register_binary = registers.binary_of_registers[instruction_entered[1]][0]
+    register_value = registers.binary_of_registers[instruction_entered[1]][1]
     register_name = instruction_entered[1]
     imm_string='{0:08b}'.format(int(instruction_entered[2][1:]))    #converting value stored in register
     if(instruction_entered[0]=="rs"):
-        binary_of_registers[register_name][1]= register_value >> int(instruction_entered[2][1:]) #place overflow check
+        registers.binary_of_registers[register_name][1]= register_value >> int(instruction_entered[2][1:]) #place overflow check
     elif(instruction_entered[0]=="ls"):
-        binary_of_registers[register_name][1]= register_value << int(instruction_entered[2][1:]) #place overflow check
+        registers.binary_of_registers[register_name][1]= register_value << int(instruction_entered[2][1:]) #place overflow check
     elif(instruction_entered[0]=="mov"):
-        binary_of_registers[register_name][1]= int(instruction_entered[2][1:])
+        registers.binary_of_registers[register_name][1] = int(instruction_entered[2][1:])
     ml= op_code+register_binary+imm_string #converted into machine code
     print(ml)
 
 
 def typeC_fun(instruction_entered):
+    if instruction_entered[0]=="mov" and instruction_entered[2] =='FLAGS':
+        op_code = instructions.type_C_instructions[instruction_entered[0]]
+        register1_binary= registers.binary_of_registers[instruction_entered[1]][0]
+        flags_value =  str(registers.V) +str(registers.LGE)
+        ml = op_code + '00000' + register1_binary + '111'
+        print(ml)
+        registers.binary_of_registers[instruction_entered[1]][1] = int(flags_value,2)
+        return
+
     op_code = instructions.type_C_instructions[instruction_entered[0]]
-    register1_binary= binary_of_registers[instruction_entered[1]][0]
-    register2_binary= binary_of_registers[instruction_entered[2]][0]
+    register1_binary= registers.binary_of_registers[instruction_entered[1]][0]
+    register2_binary= registers.binary_of_registers[instruction_entered[2]][0]
     if(instruction_entered[0]=="mov"):
-        binary_of_registers[instruction_entered[1]][1] = binary_of_registers[instruction_entered[2]][1]
+        registers.binary_of_registers[instruction_entered[1]][1] = registers.binary_of_registers[instruction_entered[2]][1]
     elif instruction_entered[0] =='div':
-        binary_of_registers['R0'][1] = binary_of_registers[instruction_entered[1]][1] // binary_of_registers[instruction_entered[2]][1]
-        binary_of_registers['R1'][1] = binary_of_registers[instruction_entered[1]][1] % binary_of_registers[instruction_entered[2]][1]
+        registers.binary_of_registers['R0'][1] = registers.binary_of_registers[instruction_entered[1]][1] // registers.binary_of_registers[instruction_entered[2]][1]
+        registers.binary_of_registers['R1'][1] = registers.binary_of_registers[instruction_entered[1]][1] % registers.binary_of_registers[instruction_entered[2]][1]
     elif(instruction_entered[0]=="not"):        #place overflow check
-        binary_of_registers[instruction_entered[1]][1] = ~binary_of_registers[instruction_entered[2]][1] #bitwise not
+        registers.binary_of_registers[instruction_entered[1]][1] = ~registers.binary_of_registers[instruction_entered[2]][1] #bitwise not
     elif(instruction_entered[0]=="cmp"):
-        if(binary_of_registers[instruction_entered[1]][1]==binary_of_registers[instruction_entered[2]][1]):
-            E=1
-        elif(binary_of_registers[instruction_entered[1]][1] < binary_of_registers[instruction_entered[2]][1]):
-            L=1
-        elif(binary_of_registers[instruction_entered[1]][1] > binary_of_registers[instruction_entered[2]][1]):
-            G=1
+        if(registers.binary_of_registers[instruction_entered[1]][1]== registers.binary_of_registers[instruction_entered[2]][1]):
+            registers.LGE=1
+        elif(registers.binary_of_registers[instruction_entered[1]][1] < registers.binary_of_registers[instruction_entered[2]][1]):
+            registers.LGE=4
+        elif(registers.binary_of_registers[instruction_entered[1]][1] > registers.binary_of_registers[instruction_entered[2]][1]):
+            registers.LGE=2
     ml= op_code+"00000"+register1_binary+register2_binary #converted into machine code
     print(ml)
 
