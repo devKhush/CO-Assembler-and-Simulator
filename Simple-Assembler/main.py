@@ -116,7 +116,7 @@ if binary_to_be_generated:
     program_counter = 0
     while program_counter < len(all_instructions.keys()):
         
-    #for address,list in all_instructions.items():
+    #for address,list in all_instructions.items():   ignore this
         instruction_to_be_executed = all_instructions[program_counter][0].split()
         line_num = all_instructions[program_counter][1]
         
@@ -179,6 +179,9 @@ if binary_to_be_generated:
                     quit()
 
                 elif (instruction_to_be_executed[1] not in registers.binary_of_registers.keys()) or (instruction_to_be_executed[2] not in registers.binary_of_registers.keys()):
+                    print(f"'Syntax Error' In line no. {line_num }: Register not supported by ISA")
+                    quit()
+                elif (instruction_to_be_executed[1] not in registers.binary_of_registers.keys()) or (instruction_to_be_executed[2] not in registers.flags.keys()):
                     print(f"'Syntax Error' In line no. {line_num }: Register not supported by ISA")
                     quit()
                 instructions.typeC_fun(instruction_to_be_executed)

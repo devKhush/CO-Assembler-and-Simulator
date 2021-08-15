@@ -2,9 +2,10 @@ import main
 import instructions
 
 V = 0
-L = 0
+"""L = 0
 G = 0
-E = 0
+E = 0"""
+LGE = 0
 flags = {'FLAGS': '111'}
 binary_of_registers = {'R0': ['000',0], 'R1':['001',0],'R2': ['010',0], 'R3':['011',0], 'R4': ['100',0], 'R5':['101',0], 'R6':['110',0]}
 
@@ -60,11 +61,11 @@ def typeE_fun(instruction_entered,program_counter):
     print(ml)
     if instruction_entered[0] == 'jmp':        # unconditional jmp
         return new_pc- 1
-    elif instruction_entered[0] == 'jlt' and L==1:
+    elif instruction_entered[0] == 'jlt' and LGE==4:
         return new_pc-1
-    elif instruction_entered[0] =='jgt' and G==1:
+    elif instruction_entered[0] =='jgt' and LGE==2:
         return new_pc-1
-    elif instruction_entered[0] =='je' and E==1:
+    elif instruction_entered[0] =='je' and LGE==1:
         return new_pc -1
     return program_counter
 
