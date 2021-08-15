@@ -23,7 +23,7 @@ line_num = 1
 halt_found = 0
 current_address = 0
 
-inp = open('input.txt')
+#inp = open('input.txt')
 
 for line in stdin:
     if line == '\n':
