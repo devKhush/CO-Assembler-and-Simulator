@@ -151,7 +151,7 @@ if True:
                 binary_to_be_generated = False
                 continue
             if binary_to_be_generated:
-                instructions.typeA_fun(instruction_to_be_executed)
+                registers.typeA_fun(instruction_to_be_executed)
         
 
         elif (instruction_to_be_executed[0] in instructions.type_B_instructions) and (instruction_to_be_executed[0]!='mov'):
@@ -272,7 +272,7 @@ if True:
                 binary_to_be_generated = False
                 continue
             if binary_to_be_generated:
-                program_counter = instructions.typeE_fun(instruction_to_be_executed,program_counter)
+                program_counter = registers.typeE_fun(instruction_to_be_executed,program_counter)
 
 
         elif instruction_to_be_executed[0] in instructions.type_F_instructions:

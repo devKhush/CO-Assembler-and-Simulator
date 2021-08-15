@@ -9,7 +9,7 @@ def typeA_fun(instruction_entered) :
     op_code = instructions.type_A_instructions[instruction_entered[0]]
 
     #taking register's binary value from the dictionaries
-    register1_binary = registers.binary_of_registers[instruction_entered[1]][0]
+    register1_binary = binary_of_registers[instruction_entered[1]][0]
     register2_binary= binary_of_registers[instruction_entered[2]][0]
     register3_binary= binary_of_registers[instruction_entered[3]][0]
     ml= op_code+"00"+register1_binary+register2_binary+register3_binary #converted into machine code 
