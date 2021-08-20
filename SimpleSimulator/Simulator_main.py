@@ -8,6 +8,9 @@ class Memory:
     def getData(self, pc):
         instruction = self.memoryDict[pc]
         return instruction
+    
+    def dump(self):
+        #add dump code here
 
 class Program_counter:
     def __init__(self):
@@ -48,6 +51,11 @@ def initialize(memoryDict):
         address += 1
 
 
+def execute(instruction):
+    #add code for this function
+    return
+
+
 memory = Memory()
 initialize(memory.memoryDict)     # Load memory from stdin
 PC = Program_counter()            # initialise the pc and Start from the first 0th instruction
@@ -56,9 +64,9 @@ register = Registers()
 halted = False
 while not halted:
     Instruction = memory.getData(PC)          # Get current instruction
-    halted, new_PC = EE.execute(Instruction)  # Update RF compute new_PC
+    halted, new_PC = execute(Instruction)     # Update Registers and compute new_PC
     PC.dump()                                 # Print PC
-    register.dump()                                 # Print RF state
+    register.dump()                           # Print Register's state
     PC.update(new_PC)  # Update PC
 
 memory.dump()
