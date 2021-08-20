@@ -26,9 +26,10 @@ current_address = 0
 #inp = open('input.txt')
 
 for line in stdin:
-    if line == '\n':
+    if not line.strip():
         line_num+=1
-
+        continue
+        
     instruction_entered = line.split()  #list
 
     if halt_found==1:
