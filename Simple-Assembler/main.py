@@ -3,6 +3,7 @@ import registers
 import instructions
 
 binary_to_be_generated =True
+halt_found_in_label=0
 
 all_varaibles_defined = []   # it has all varaibles defined correctly in input file
 variables = {}              # has all variables with values {'variable_Name': value_in_decimal}
@@ -96,7 +97,7 @@ for line in stdin:
             current_address += 1 
             line_num+=1
             if instruction_entered[1]=="hlt": # label is holding hlt instruction
-                halt_found = 1
+                halt_found_in_label=1
     
     elif instruction_entered[0] not in instructions.instructions:
         print(f"'Syntax Error' In line no. {line_num}: Typo in Instruction name")
@@ -123,7 +124,7 @@ for line in stdin:
 
 
 
-if halt_found==0:
+if halt_found==0 and halt_found_in_label==0:
     print(f"'Syntax Error' In line no. {line_num}: Missing 'hlt' instruction")
     binary_to_be_generated = False
 
@@ -313,6 +314,10 @@ if True:
             if binary_to_be_generated:
                 ml = '10011'+ ('0'*11)
                 print(ml)
+                quit()
                 #instructions.typeF_fun(instruction_to_be_executed)
         
         program_counter+=1
+
+    if program_counter>=len(all_instructions.keys()):
+            print(f"'Syntax Error' In {line_num+1}: Missing 'hlt' instruction")
