@@ -3,7 +3,15 @@ var c
 var xyz
 add R0 R1 R2
 
+mov R3 $20
+mov R6 $255
 sub R0 R5 R2
 
+cmp R3 R6
+jlt label
+
+add R0 R5 R4
+not R1 R2
+
+
 label: hlt
-add R0 r1 r2
