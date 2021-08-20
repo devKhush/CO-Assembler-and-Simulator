@@ -22,21 +22,23 @@ class Program_counter:
 
 
 class Registers:
-    all_registers = {'R0':0,'R1':0,'R2':0,'R3':0,'R4':0,'R5':0,'R6':0}
-    flags = '011'
+    all_registers = {'000':0,'001':0,'010':0,'011':0,'100':0,'101':0,'110':0}
+    flags = '111'
     LGE = 0
     V = 0
 
     def dump(self):
-        r0_binary = '{0:016b}'.format(self.all_registers['R0'])
-        r1_binary = '{0:016b}'.format(self.all_registers['R1'])
-        r2_binary = '{0:016b}'.format(self.all_registers['R2'])
-        r3_binary = '{0:016b}'.format(self.all_registers['R3'])
-        r4_binary = '{0:016b}'.format(self.all_registers['R4'])
-        r5_binary = '{0:016b}'.format(self.all_registers['R5'])
-        r6_binary = '{0:016b}'.format(self.all_registers['R6'])
+        r0_binary = '{0:016b}'.format(self.all_registers['000'])
+        r1_binary = '{0:016b}'.format(self.all_registers['001'])
+        r2_binary = '{0:016b}'.format(self.all_registers['010'])
+        r3_binary = '{0:016b}'.format(self.all_registers['011'])
+        r4_binary = '{0:016b}'.format(self.all_registers['100'])
+        r5_binary = '{0:016b}'.format(self.all_registers['101'])
+        r6_binary = '{0:016b}'.format(self.all_registers['110'])
         flag_binary = '0'*12 + str(self.V)+ str(self.LGE)
-        print(r0_binary,end=" "), print(r1_binary,end =" "), print
+        print(r0_binary,end=" "), print(r1_binary,end =" "), print(r2_binary,end=" "), print(r3_binary,end =" ")
+        print(r4_binary,end=" "), print(r5_binary,end=" "), print(r6_binary,end=" "), print(flag_binary)
+
 
 
 def initialize(memoryDict):
