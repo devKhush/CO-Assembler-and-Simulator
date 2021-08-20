@@ -38,7 +38,7 @@ def typeA_fun(instruction_entered) :
 
     #bitwise XOR
     elif(ml[:5]=="01010"):
-        binary_of_registers[instruction_entered[1]][1]= registers.binary_of_registers[instruction_entered[2]][1]^ binary_of_registers[instruction_entered[3]][1]
+        binary_of_registers[instruction_entered[1]][1]= binary_of_registers[instruction_entered[2]][1]^ binary_of_registers[instruction_entered[3]][1]
 
     #bitwise OR
     elif(ml[:5]=="01011"):
