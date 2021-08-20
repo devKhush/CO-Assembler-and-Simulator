@@ -150,21 +150,12 @@ def typeD_fun(instruction_entered,varaibles):
     ml = op_code + register1_binary + memo_addr_in_binary 
     print(ml)
 
-def typeE_fun(instruction_entered,program_counter,labels):
+def typeE_fun(instruction_entered,labels):
     op_code = instructions.type_E_instructions[instruction_entered[0]]
     new_pc = labels[instruction_entered[1]]
     binary_of_location = '{0:08b}'.format(new_pc)
     ml = op_code + '000' +binary_of_location
     print(ml)
-    if instruction_entered[0] == 'jmp':        # unconditional jmp
-        return new_pc- 1
-    elif instruction_entered[0] == 'jlt' and registers.LGE==4:
-        return new_pc-1
-    elif instruction_entered[0] =='jgt' and registers.LGE==2:
-        return new_pc-1
-    elif instruction_entered[0] =='je' and registers.LGE==1:
-        return new_pc -1
-    return program_counter
 
 
 if True:
@@ -307,7 +298,7 @@ if True:
                 binary_to_be_generated = False
                 continue
             if binary_to_be_generated:
-                program_counter = typeE_fun(instruction_to_be_executed,program_counter,labels)
+                typeE_fun(instruction_to_be_executed,labels)
 
 
         elif instruction_to_be_executed[0] in instructions.type_F_instructions:
@@ -318,6 +309,3 @@ if True:
                 #instructions.typeF_fun(instruction_to_be_executed)
         
         program_counter+=1
-
-    if program_counter>=len(all_instructions.keys()):
-            print(f"'Syntax Error' In {line_num+1}: Missing 'hlt' instruction")
