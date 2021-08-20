@@ -11,6 +11,7 @@ class Memory:
     
     def dump(self):
         #add dump code here
+        return
 
 class Program_counter:
     def __init__(self):
