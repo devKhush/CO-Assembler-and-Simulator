@@ -44,7 +44,11 @@ for line in stdin:
 
     elif instruction_entered[0]=='var':
         variable = instruction_entered[1]
-        if variable in instructions.instructions:
+        if len(instruction_entered)!=2:
+            print(f"'Syntax Error' In line no. {line_num}: Invalid syntax for Variable declaration")
+            binary_to_be_generated = False
+            line_num += 1
+        elif variable in instructions.instructions:
             print(f"'Syntax Error' In line no. {line_num}: Instruction mnemonic and variables can't have same name")
             binary_to_be_generated = False
             line_num+=1
@@ -97,14 +101,24 @@ for line in stdin:
         print(f"'Syntax Error' In line no. {line_num}: Typo in Instruction name")
         binary_to_be_generated = False
         line_num+=1
+    
+    elif instruction_entered[0]=="hlt":
+        if len(instruction_entered) != 1:
+            print(f"'Syntax Error' In line no. {line_num}: Invalid Syntax for 'hlt' instruction")
+            binary_to_be_generated = False
+            line_num+=1
+        else:
+            halt_found=1
+            variables_defination_finished =1
+            all_instructions[current_address] = [line,line_num]
+            line_num+=1
+            current_address +=1
 
     elif instruction_entered[0] in instructions.instructions:
         variables_defination_finished =1
         all_instructions[current_address] = [line,line_num]
         line_num+=1
         current_address +=1
-        if instruction_entered[0]=="hlt":
-            halt_found=1
 
 
 
