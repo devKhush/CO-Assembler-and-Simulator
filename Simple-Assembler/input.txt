@@ -3,4 +3,7 @@ var c
 var xyz
 add R0 R1 R2
 
-hlt
+sub R0 R5 R2
+
+label: hlt
+add R0 r1 r2

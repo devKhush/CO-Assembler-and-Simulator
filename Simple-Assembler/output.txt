@@ -1,2 +1,1 @@
-0000000000001010
-1001100000000000
+'Syntax Error' In line no. 9: 'hlt' not being used as last statement
