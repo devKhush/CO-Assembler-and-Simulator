@@ -52,7 +52,14 @@ def typeC_fun(instruction_entered):
         registers.binary_of_registers['R0'][1] = registers.binary_of_registers[instruction_entered[1]][1] // registers.binary_of_registers[instruction_entered[2]][1]
         registers.binary_of_registers['R1'][1] = registers.binary_of_registers[instruction_entered[1]][1] % registers.binary_of_registers[instruction_entered[2]][1]
     elif(instruction_entered[0]=="not"):
-        registers.binary_of_registers[instruction_entered[1]][1] = ~registers.binary_of_registers[instruction_entered[2]][1] #bitwise not
+        binary_str_2nd_param = '{0:016b}'.format(registers.binary_of_registers[instruction_entered[2]][1])
+        inverted_str =''
+        for i in binary_str_2nd_param:
+            if i == '0':
+                inverted_str += '1'
+            else:
+                inverted_str += '0'
+        registers.binary_of_registers[instruction_entered[1]][1] = int(inverted_str,2)  # bitwise not
     elif(instruction_entered[0]=="cmp"):
         if(registers.binary_of_registers[instruction_entered[1]][1]== registers.binary_of_registers[instruction_entered[2]][1]):
             registers.LGE=1
