@@ -5,7 +5,7 @@ class Memory:
     def __init__(self):
         self.memoryDict = {}  # {pc : instruction_binary_code}
 
-    def getData(self, pc):
+    def fetch(self, pc):
         instruction = self.memoryDict[pc]
         return instruction
     
@@ -54,12 +54,12 @@ def showTraces():
     return
 
 
-def dumpMemory(programMemory, varaibaleMemory):
+def dumpMemory(programMemory, variableMemory):
     lines = 1
     for i,j in programMemory.items():
         print(j)
         lines+=1
-    for i,j in varaibaleMemory.items():
+    for i,j in variableMemory.items():
         variable_value_in_binary = '{0:016b}'.format(j)
         print(variable_value_in_binary)
         lines+=1
@@ -69,7 +69,7 @@ def dumpMemory(programMemory, varaibaleMemory):
     return
 
 
-def execute(instruction,register):
+def execute(instruction, register, programMemory, variableMemory):
     # divide work among them equally
     # add code for this function
     return
@@ -83,9 +83,8 @@ register = Registers()            # object of Registers, see implementation
 
 halted = False
 while not halted:
-    Instruction = memory.getData(PC)                   # Get current instruction
-    halted, new_PC = execute(Instruction,register)     # Update Registers and compute new_PC
-
+    Instruction = memory.fetch(PC)                   # Get current instruction
+    halted, new_PC = execute(Instruction,register,memory.memoryDict,variable_memory) # Update Registers and compute new_PC
     PC.dump()                                          # Print PC
     register.dump()                                    # Print Register's state
     PC.update(new_PC)  # Update PC
