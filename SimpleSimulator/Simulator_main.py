@@ -48,6 +48,12 @@ def initialize(memoryDict):
         memoryDict[address] = line
         address += 1
 
+
+def showTraces():
+    #to be done by Khushdev for bonus
+    return
+
+
 def dump(programMemory, varaibaleMemory):
     lines = 1
     for i,j in memory.memoryDict.items():
@@ -64,7 +70,8 @@ def dump(programMemory, varaibaleMemory):
 
 
 def execute(instruction,register):
-    #add code for this function
+    # divide work among them equally
+    # add code for this function
     return
 
 
@@ -83,3 +90,4 @@ while not halted:
     PC.update(new_PC)  # Update PC
 
 dumpMemory(memory, variable_memory)
+showTraces()
