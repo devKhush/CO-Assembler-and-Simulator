@@ -1,4 +1,5 @@
 #!/bin/bash
 
 # Add command to run your program here
-python3 Simulator_main.py
+#python3 Simulator_main.py
+echo "Hello World"
