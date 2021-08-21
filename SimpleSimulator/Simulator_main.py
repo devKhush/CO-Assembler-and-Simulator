@@ -42,10 +42,10 @@ class Registers:
 
 
 
-def initialize(memoryDict):
+def initialize(memory_dict):
     address = 0
     for line in stdin:
-        memoryDict[address] = line
+        memory_dict[address] = line
         address += 1
 
 
@@ -56,7 +56,7 @@ def showTraces():
 
 def dumpMemory(programMemory, varaibaleMemory):
     lines = 1
-    for i,j in memory.memoryDict.items():
+    for i,j in programMemory.items():
         print(j)
         lines+=1
     for i,j in varaibaleMemory.items():
@@ -85,9 +85,10 @@ halted = False
 while not halted:
     Instruction = memory.getData(PC)                   # Get current instruction
     halted, new_PC = execute(Instruction,register)     # Update Registers and compute new_PC
+
     PC.dump()                                          # Print PC
     register.dump()                                    # Print Register's state
     PC.update(new_PC)  # Update PC
 
-dumpMemory(memory, variable_memory)
+dumpMemory(memory.memoryDict, variable_memory)
 showTraces()
