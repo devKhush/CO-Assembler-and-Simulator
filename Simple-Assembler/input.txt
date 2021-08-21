@@ -4,8 +4,15 @@ var xyz
 add R0 R1 R2
 
 mov R3 $20
+st R5 c
+st R3 c
 mov R6 $255
+st R6 c
+ld R2 c
 sub R0 R5 R2
+mov R0 $100
+
+st R0 c
 
 cmp R3 R6
 jlt label

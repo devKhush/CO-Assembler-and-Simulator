@@ -5,7 +5,7 @@ import instructions
 binary_to_be_generated =True
 
 all_varaibles_defined = []   # it has all varaibles defined correctly in input file
-variables = {}              # has all variables with values {'variable_Name': value_in_decimal}
+variables = {}              # has all variables with values and address {'variable_Name': [address_in_decimal, value_in_decimal]}
 variables_defination_finished = 0
 
 all_labels_defined = []     # it has all the lables defined correctly in input file
@@ -133,19 +133,19 @@ if current_address>256:
 
 
 for variableName in all_varaibles_defined:
-    variables[variableName] = current_address
+    variables[variableName] = [current_address, 0]
     current_address+=1
 
 
 def typeD_fun(instruction_entered,varaibles):
     op_code = instructions.type_D_instructions[instruction_entered[0]]
     register1_binary= registers.binary_of_registers[instruction_entered[1]][0]
-    memo_addr = variables[instruction_entered[2]]
+    memo_addr = variables[instruction_entered[2]][0]
     memo_addr_in_binary ='{0:08b}'.format(memo_addr)
     if(instruction_entered[0]=="ld"):
-        registers.binary_of_registers[instruction_entered[1]][1] = memo_addr
+        registers.binary_of_registers[instruction_entered[1]][1] = varaibles[instruction_entered[2]][1]
     elif(instruction_entered[0]=="st"):
-        varaibles[instruction_entered[2]] = registers.binary_of_registers[instruction_entered[1]][1]
+        varaibles[instruction_entered[2]][1] = registers.binary_of_registers[instruction_entered[1]][1]
     ml = op_code + register1_binary + memo_addr_in_binary 
     print(ml)
 
