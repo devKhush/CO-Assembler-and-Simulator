@@ -9,9 +9,6 @@ class Memory:
         instruction = self.memoryDict[pc]
         return instruction
     
-    def dump(self):
-        #add dump code here
-        return
 
 class Program_counter:
     def __init__(self):
@@ -51,12 +48,27 @@ def initialize(memoryDict):
         memoryDict[address] = line
         address += 1
 
+def dump(programMemory, varaibaleMemory):
+    lines = 1
+    for i,j in memory.memoryDict.items():
+        print(j)
+        lines+=1
+    for i,j in varaibaleMemory.items():
+        variable_value_in_binary = '{0:016b}'.format(j)
+        print(variable_value_in_binary)
+        lines+=1
+    while lines<=256:
+        print('0'*16)
+        lines+=1
+    return
+
 
 def execute(instruction):
     #add code for this function
     return
 
 
+variable_memory = {} # stores all the variable encountered in format {'address_in_binary_string' : value_in_decimal}
 memory = Memory()
 initialize(memory.memoryDict)     # Load memory from stdin
 PC = Program_counter()            # initialise the pc and Start from the first 0th instruction
@@ -70,4 +82,4 @@ while not halted:
     register.dump()                           # Print Register's state
     PC.update(new_PC)  # Update PC
 
-memory.dump()
+dumpMemory(memory, variable_memory)
