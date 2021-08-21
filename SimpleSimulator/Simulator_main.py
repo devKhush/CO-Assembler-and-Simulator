@@ -54,7 +54,7 @@ def showTraces():
     return
 
 
-def dump(programMemory, varaibaleMemory):
+def dumpMemory(programMemory, varaibaleMemory):
     lines = 1
     for i,j in memory.memoryDict.items():
         print(j)
