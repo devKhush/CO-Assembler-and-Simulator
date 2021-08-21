@@ -63,23 +63,23 @@ def dump(programMemory, varaibaleMemory):
     return
 
 
-def execute(instruction):
+def execute(instruction,register):
     #add code for this function
     return
 
 
 variable_memory = {} # stores all the variable encountered in format {'address_in_binary_string' : value_in_decimal}
-memory = Memory()
+memory = Memory()       # object of Memory, see implementation. It has a dict 'memory.memoryDict' which stores {address_in_decimal : 'instruction_in_16_bit_binary_as_string'}
 initialize(memory.memoryDict)     # Load memory from stdin
 PC = Program_counter()            # initialise the pc and Start from the first 0th instruction
-register = Registers()
+register = Registers()            # object of Registers, see implementation
 
 halted = False
 while not halted:
-    Instruction = memory.getData(PC)          # Get current instruction
-    halted, new_PC = execute(Instruction)     # Update Registers and compute new_PC
-    PC.dump()                                 # Print PC
-    register.dump()                           # Print Register's state
+    Instruction = memory.getData(PC)                   # Get current instruction
+    halted, new_PC = execute(Instruction,register)     # Update Registers and compute new_PC
+    PC.dump()                                          # Print PC
+    register.dump()                                    # Print Register's state
     PC.update(new_PC)  # Update PC
 
 dumpMemory(memory, variable_memory)
