@@ -58,7 +58,7 @@ for line in stdin:
             binary_to_be_generated = False
             line_num+=1
         elif variable in all_labels_defined:
-            print(f"'Syntax Error' In line no. {line_num}: Lables and Variables can't have same name")
+            print(f"'Syntax Error' In line no. {line_num}: Labels and Variables can't have same name")
             binary_to_be_generated = False
             line_num+=1
         else:
@@ -170,6 +170,11 @@ if True:
                 binary_to_be_generated = False
                 program_counter+=1
                 continue
+            elif (instruction_to_be_executed[1] =='FLAGS') or (instruction_to_be_executed[2] =='FLAGS') or (instruction_to_be_executed[3] =='FLAGS'):
+                print(f"'Syntax Error' In line no. {line_num}: Illegal use of FLAGS registers")
+                program_counter += 1
+                binary_to_be_generated = False
+                continue
             elif (instruction_to_be_executed[1] not in registers.binary_of_registers.keys()) or (instruction_to_be_executed[2] not in registers.binary_of_registers.keys()) or (instruction_to_be_executed[3] not in registers.binary_of_registers.keys()):
                 print(f"'Syntax Error' In line no. {line_num }: Register not supported by ISA")
                 program_counter+=1
@@ -188,6 +193,11 @@ if True:
             elif instruction_to_be_executed[2][0]!='$' or ( not instruction_to_be_executed[2][1:].isdecimal()):
                 print(f"'Syntax Error' In line no. {line_num }: Wrong syntax used for Type-B instructions")
                 program_counter+=1
+                binary_to_be_generated = False
+                continue
+            elif (instruction_to_be_executed[1] =='FLAGS'):
+                print(f"'Syntax Error' In line no. {line_num}: Illegal use of FLAGS registers")
+                program_counter += 1
                 binary_to_be_generated = False
                 continue
             elif (instruction_to_be_executed[1] not in registers.binary_of_registers.keys()):
@@ -210,7 +220,11 @@ if True:
                 program_counter+=1
                 binary_to_be_generated = False
                 continue
-
+            elif (instruction_to_be_executed[1]=='FLAGS') or (instruction_to_be_executed[2] =='FLAGS'):
+                print(f"'Syntax Error' In line no. {line_num}: Illegal use of FLAGS registers")
+                program_counter += 1
+                binary_to_be_generated = False
+                continue
             elif (instruction_to_be_executed[1] not in registers.binary_of_registers.keys()) or (instruction_to_be_executed[2] not in registers.binary_of_registers.keys()):
                 print(f"'Syntax Error' In line no. {line_num }: Register not supported by ISA")
                 program_counter+=1
@@ -232,6 +246,11 @@ if True:
                     program_counter+=1
                     binary_to_be_generated = False
                     continue
+                elif (instruction_to_be_executed[1] == 'FLAGS'):
+                    print(f"'Syntax Error' In line no. {line_num}: Illegal use of FLAGS registers")
+                    program_counter += 1
+                    binary_to_be_generated = False
+                    continue
                 elif (instruction_to_be_executed[1] not in registers.binary_of_registers.keys()):
                     print(f"'Syntax Error' In line no. {line_num }: Register not supported by ISA")
                     program_counter+=1
@@ -250,7 +269,11 @@ if True:
                     program_counter+=1
                     binary_to_be_generated = False
                     continue
-
+                elif instruction_to_be_executed[1] == 'FLAGS':
+                    print(f"'Syntax Error' In line no. {line_num}: Illegal use of FLAGS registers")
+                    program_counter += 1
+                    binary_to_be_generated = False
+                    continue
                 elif (instruction_to_be_executed[1] not in registers.binary_of_registers.keys()):
                     print(f"'Syntax Error' In line no. {line_num }: Register .not supported by ISA")
                     program_counter+=1
@@ -271,9 +294,19 @@ if True:
                 program_counter+=1
                 binary_to_be_generated = False
                 continue
+            elif instruction_to_be_executed[1]=='FLAGS':
+                print(f"'Syntax Error' In line no. {line_num}: Illegal use of FLAGS registers")
+                program_counter += 1
+                binary_to_be_generated = False
+                continue
             elif instruction_to_be_executed[1] not in registers.binary_of_registers.keys():
                 print(f"'Syntax Error' In line no. {line_num }: Register not supported by ISA")
                 program_counter+=1
+                binary_to_be_generated = False
+                continue
+            elif instruction_to_be_executed[2] in all_labels_defined:
+                print(f"'Syntax Error' In line no. {line_num}: Misuse of Label as variables")
+                program_counter += 1
                 binary_to_be_generated = False
                 continue
             elif instruction_to_be_executed[2] not in all_varaibles_defined:
@@ -289,6 +322,11 @@ if True:
             if len(instruction_to_be_executed)!=2:
                 print(f"'Syntax Error' In line no. {line_num }: Wrong syntax used for Type-E instructions")
                 program_counter+=1
+                binary_to_be_generated = False
+                continue
+            elif (instruction_to_be_executed[1] in all_varaibles_defined):
+                print(f"'Syntax Error' In line no. {line_num}: Misuse of variables as labels")
+                program_counter += 1
                 binary_to_be_generated = False
                 continue
             elif (instruction_to_be_executed[1] not in all_labels_defined):
