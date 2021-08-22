@@ -69,9 +69,33 @@ def dumpMemory(programMemory, variableMemory):
     return
 
 
-def execute(instruction, register, programMemory, variableMemory):
+def execute(instruction, pc, register, programMemory, variableMemory):
     # divide work among them equally
     # add code for this function
+    opcode = instruction[0:5]    # opcode of instruction
+
+    if opcode=='00100 ':                     # load instruction
+        variable_address = instruction[8:]
+        register_operand = instruction[5:8]
+        if variable_address in variableMemory.keys():
+            register.all_registers[register_operand] = variableMemory[variable_address]
+            return False, pc+1
+        else:
+            variableMemory[variable_address] = 0
+            register.all_registers[register_operand] = variableMemory[variable_address]
+            return False, pc+1
+
+    elif opcode == '00101':                 # store instruction
+        variable_address = instruction[8:]
+        register_operand = instruction[5:8]
+        if variable_address in variableMemory.keys():
+            variableMemory[variable_address] = register.all_registers[register_operand]
+            return False, pc+1
+        else:
+            variableMemory[variable_address] = 0
+            variableMemory[variable_address] = register.all_registers[register_operand]
+            return False, pc+1
+
     return
 
 
@@ -84,7 +108,7 @@ register = Registers()            # object of Registers, see implementation
 halted = False
 while not halted:
     Instruction = memory.fetch(PC)                   # Get current instruction
-    halted, new_PC = execute(Instruction,register,memory.memoryDict,variable_memory) # Update Registers and compute new_PC
+    halted, new_PC = execute(Instruction, PC.pc_value, register, memory.memoryDict, variable_memory) # Update Registers and compute new_PC
     PC.dump()                                          # Print PC
     register.dump()                                    # Print Register's state
     PC.update(new_PC)  # Update PC
