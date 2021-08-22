@@ -100,9 +100,7 @@ def execute(instruction, pc, register, programMemory, variableMemory):
             return False, pc+1
 
     elif opcode == '00000':
-        register.V = 0
-        register.LGE = 0 #doubt --- how to set the less than, greater than and equal to flag to 0
-
+        
         reg1 = instruction[7:10]
         reg2 = instruction[10:13]
         reg3 = instruction[13:]
@@ -120,7 +118,7 @@ def execute(instruction, pc, register, programMemory, variableMemory):
         
         return False, pc+1
     
-    
+
 
     return
 
