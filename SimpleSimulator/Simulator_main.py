@@ -100,7 +100,7 @@ def execute(instruction, pc, register, programMemory, variableMemory):
             return False, pc+1
 
     elif opcode == '00000':
-        
+
         reg1 = instruction[7:10]
         reg2 = instruction[10:13]
         reg3 = instruction[13:]
@@ -118,9 +118,45 @@ def execute(instruction, pc, register, programMemory, variableMemory):
         
         return False, pc+1
     
+    elif opcode == '00001':
 
+        reg1 = instruction[7:10]
+        reg2 = instruction[10:13]
+        reg3 = instruction[13:]
 
+        reg2_val = register.all_registers[reg2]
+        reg3_val = register.all_registers[reg3]
+
+        s= reg2_val-reg3_val
+
+        if s<0:
+            register.V=1
+        else:
+            register.all_registers[reg1] = s
+        
+        return False, pc+1
+
+    elif opcode == '00110':
+
+        reg1 = instruction[7:10]
+        reg2 = instruction[10:13]
+        reg3 = instruction[13:]
+
+        reg2_val = register.all_registers[reg2]
+        reg3_val = register.all_registers[reg3]
+
+        s= reg2_val*reg3_val
+
+        if s>pow(2,16) - 1:
+            register.V=1
+        else:
+            register.all_registers[reg1] = s
+        
+        return False, pc+1
+        
+    
     return
+
 
 
 variable_memory = {} # stores all the variable encountered in format {'address_in_binary_string' : value_in_decimal}
