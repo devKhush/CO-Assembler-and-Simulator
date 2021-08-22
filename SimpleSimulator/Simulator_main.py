@@ -74,7 +74,10 @@ def execute(instruction, pc, register, programMemory, variableMemory):
     # add code for this function
     opcode = instruction[0:5]    # opcode of instruction
 
-    if opcode=='00100 ':                     # load instruction
+    if opcode=='10011':               # halt instruction
+        return True, pc
+
+    elif opcode=='00100 ':            # load instruction
         variable_address = instruction[8:]
         register_operand = instruction[5:8]
         if variable_address in variableMemory.keys():
@@ -85,7 +88,7 @@ def execute(instruction, pc, register, programMemory, variableMemory):
             register.all_registers[register_operand] = variableMemory[variable_address]
             return False, pc+1
 
-    elif opcode == '00101':                 # store instruction
+    elif opcode == '00101':              # store instruction
         variable_address = instruction[8:]
         register_operand = instruction[5:8]
         if variable_address in variableMemory.keys():
