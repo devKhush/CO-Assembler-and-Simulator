@@ -99,7 +99,7 @@ def execute(instruction, pc, register, programMemory, variableMemory):
             variableMemory[variable_address] = register.all_registers[register_operand]
             return False, pc+1
 
-    elif opcode == '00000':
+    elif opcode == '00000': #addition
 
         reg1 = instruction[7:10]
         reg2 = instruction[10:13]
@@ -118,7 +118,7 @@ def execute(instruction, pc, register, programMemory, variableMemory):
         
         return False, pc+1
     
-    elif opcode == '00001':
+    elif opcode == '00001': #subtraction
 
         reg1 = instruction[7:10]
         reg2 = instruction[10:13]
@@ -136,7 +136,7 @@ def execute(instruction, pc, register, programMemory, variableMemory):
         
         return False, pc+1
 
-    elif opcode == '00110':
+    elif opcode == '00110': #multiplication
 
         reg1 = instruction[7:10]
         reg2 = instruction[10:13]
@@ -149,11 +149,52 @@ def execute(instruction, pc, register, programMemory, variableMemory):
 
         if s>pow(2,16) - 1:
             register.V=1
+            register.all_registers[reg1]= s - pow(2,16)
         else:
             register.all_registers[reg1] = s
         
         return False, pc+1
+    
+    elif opcode == "01010": #bitwise XOR
         
+        reg1 = instruction[7:10]
+        reg2 = instruction[10:13]
+        reg3 = instruction[13:]
+
+        reg2_val = register.all_registers[reg2]
+        reg3_val = register.all_registers[reg3]
+
+        s= reg2_val^reg3_val
+
+        return False, pc+1
+
+    elif opcode == "01011": #bitwise OR
+
+        reg1 = instruction[7:10]
+        reg2 = instruction[10:13]
+        reg3 = instruction[13:]
+
+        reg2_val = register.all_registers[reg2]
+        reg3_val = register.all_registers[reg3]
+
+        s= reg2_val|reg3_val
+
+        return False, pc+1
+
+    elif opcode == "01100":
+
+        reg1 = instruction[7:10]
+        reg2 = instruction[10:13]
+        reg3 = instruction[13:]
+
+        reg2_val = register.all_registers[reg2]
+        reg3_val = register.all_registers[reg3]
+
+        s= reg2_val & reg3_val
+
+        return False, pc+1
+
+
     
     return
 
