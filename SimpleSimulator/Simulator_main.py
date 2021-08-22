@@ -77,7 +77,7 @@ def execute(instruction, pc, register, programMemory, variableMemory):
     if opcode=='10011':               # halt instruction
         return True, pc
 
-    elif opcode=='00100 ':            # load instruction
+    elif opcode=='00100':            # load instruction
         variable_address = instruction[8:]
         register_operand = instruction[5:8]
         if variable_address in variableMemory.keys():
@@ -98,6 +98,29 @@ def execute(instruction, pc, register, programMemory, variableMemory):
             variableMemory[variable_address] = 0
             variableMemory[variable_address] = register.all_registers[register_operand]
             return False, pc+1
+
+    elif opcode == '00000':
+        register.V = 0
+        register.LGE = 0 #doubt --- how to set the less than, greater than and equal to flag to 0
+
+        reg1 = instruction[7:10]
+        reg2 = instruction[10:13]
+        reg3 = instruction[13:]
+
+        reg2_val = register.all_registers[reg2]
+        reg3_val = register.all_registers[reg3]
+
+        s = reg2_val + reg3_val
+
+        if s > pow(2,16) - 1:
+            register.V = 1
+            register.all_registers[reg1] = s - pow(2,16)
+        else:
+            register.all_registers[reg1] = s
+        
+        return False, pc+1
+    
+    
 
     return
 
