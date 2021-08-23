@@ -76,6 +76,8 @@ def execute(instruction, pc, register, programMemory, variableMemory):
     opcode = instruction[0:5]    # opcode of instruction
 
     if opcode=='10011':               # halt instruction
+        register.V=0
+        register.LGE=0
         return True, pc+1
 
     elif opcode=='00100':            # load instruction
@@ -83,10 +85,14 @@ def execute(instruction, pc, register, programMemory, variableMemory):
         register_operand = instruction[5:8]
         if variable_address in variableMemory.keys():
             register.all_registers[register_operand] = variableMemory[variable_address]
+            register.V=0
+            register.LGE=0
             return False, pc+1
         else:
             variableMemory[variable_address] = 0
             register.all_registers[register_operand] = variableMemory[variable_address]
+            register.V=0
+            register.LGE=0
             return False, pc+1
 
     elif opcode == '00101':              # store instruction
@@ -94,10 +100,14 @@ def execute(instruction, pc, register, programMemory, variableMemory):
         register_operand = instruction[5:8]
         if variable_address in variableMemory.keys():
             variableMemory[variable_address] = register.all_registers[register_operand]
+            register.V=0
+            register.LGE=0
             return False, pc+1
         else:
             variableMemory[variable_address] = 0
             variableMemory[variable_address] = register.all_registers[register_operand]
+            register.V=0
+            register.LGE=0
             return False, pc+1
 
     elif opcode == '00000':  # addition
@@ -112,6 +122,8 @@ def execute(instruction, pc, register, programMemory, variableMemory):
             register.all_registers[reg1] = sum - pow(2, 16)
         else:
             register.all_registers[reg1] = sum
+            register.V=0
+        register.LGE=0
         return False, pc + 1
 
     elif opcode == '00001':  # subtraction
@@ -126,6 +138,8 @@ def execute(instruction, pc, register, programMemory, variableMemory):
             register.V = 1
         else:
             register.all_registers[reg1] = difference
+            register.V=0
+        register.LGE=0
         return False, pc + 1
 
     elif opcode == '00110':  # multiplication
@@ -140,6 +154,8 @@ def execute(instruction, pc, register, programMemory, variableMemory):
             register.all_registers[reg1] = product - pow(2, 16)
         else:
             register.all_registers[reg1] = product
+            register.V=0
+        register.LGE=0
         return False, pc + 1
 
     elif opcode == "01010":  # bitwise XOR
@@ -149,6 +165,8 @@ def execute(instruction, pc, register, programMemory, variableMemory):
         reg2_val = register.all_registers[reg2]
         reg3_val = register.all_registers[reg3]
         register.all_registers[reg1] = reg2_val ^ reg3_val
+        register.V=0
+        register.LGE=0
         return False, pc + 1
 
     elif opcode == "01011":      # bitwise OR
@@ -158,6 +176,8 @@ def execute(instruction, pc, register, programMemory, variableMemory):
         reg2_val = register.all_registers[reg2]
         reg3_val = register.all_registers[reg3]
         register.all_registers[reg1] = reg2_val | reg3_val
+        register.V=0
+        register.LGE=0
         return False, pc + 1
 
     elif opcode == "01100":       # bitwise and operation
@@ -167,6 +187,8 @@ def execute(instruction, pc, register, programMemory, variableMemory):
         reg2_val = register.all_registers[reg2]
         reg3_val = register.all_registers[reg3]
         register.all_registers[reg1] = reg2_val & reg3_val
+        register.V=0
+        register.LGE=0
         return False, pc + 1
     
     elif opcode == "00011":     # move register
@@ -177,40 +199,119 @@ def execute(instruction, pc, register, programMemory, variableMemory):
             register.all_registers[reg1] = int(reg2_value_in_binary,2)
         else:
             register.all_registers[reg1] = register.all_registers[reg2]
+        register.V=0
+        register.LGE=0
         return False,pc+1
 
     elif opcode =='01111':     # jmp instruction
         memory_address_to_jmp = instruction[8:16]
         newPc = int(memory_address_to_jmp,2)
+        register.V=0
+        register.LGE=0
         return False, newPc
 
     elif opcode=='10000':      # jlt instruction
         memory_address_to_jmp = instruction[8:16]
         newPc = int(memory_address_to_jmp, 2)
         if register.LGE==4:
+            register.V=0
+            register.LGE=0
             return False, newPc
         else:
+            register.V=0
+            register.LGE=0
             return False, pc+1
 
     elif opcode=='10001':      # jgt instruction
         memory_address_to_jmp = instruction[8:16]
         newPc = int(memory_address_to_jmp, 2)
         if register.LGE==2:
+            register.V=0
+            register.LGE=0
             return False, newPc
         else:
+            register.V=0
+            register.LGE=0
             return False, pc+1
 
     elif opcode=='10010':      # je instruction
         memory_address_to_jmp = instruction[8:16]
         newPc = int(memory_address_to_jmp, 2)
         if register.LGE==1:
+            register.V=0
+            register.LGE=0
             return False, newPc
         else:
+            register.V=0
+            register.LGE=0
             return False, pc+1
     
-    return
+    elif opcode == "00010":       # move immediate
+        reg = instruction[5:8]
+        imm = int(instruction[8:16], 2)
+        register.all_registers[reg] = imm
+        register.V=0
+        register.LGE=0
+        return False, pc + 1
+
+    elif opcode == "01000":  # right shift
+        reg = instruction[5:8]
+        imm = int(instruction[8:16], 2)
+        reg_value = register.all_registers[reg]
+        register.all_registers[reg] = reg_value >> imm
+        register.V=0
+        register.LGE=0
+        return False, pc + 1
+
+    elif opcode == "01001":  # left shift
+        reg = instruction[5:8]
+        imm = int(instruction[8:16], 2)
+        reg_value = register.all_registers[reg]
+        register.all_registers[reg] = reg_value << imm
+        register.V=0
+        register.LGE=0
+        return False, pc + 1
+
+    elif opcode == "00111":  # divide
+        reg1 = instruction[10:13]
+        reg2 = instruction[13:16]
+        register.all_registers["000"] = register.all_registers[reg1] // register.all_registers[reg2]
+        register.all_registers["001"] = register.all_registers[reg1] % register.all_registers[reg2]
+        register.V=0
+        register.LGE=0
+        return False, pc + 1
+
+    elif opcode == "01101":  # invert
+        reg1 = instruction[10:13]
+        reg2 = instruction[13:16]
+        inverted_str = ''
+        reg_str = '{0:016b}'.format(register.all_registers[reg2])
+        for i in reg_str:
+            if i == '0':
+                inverted_str += '1'
+            else:
+                inverted_str += '0'
+        register.all_registers[reg1] = int(inverted_str, 2)
+        register.V=0
+        register.LGE=0
+        return False, pc + 1
+
+    elif opcode == "01110":  # compare
+        reg1 = instruction[10:13]
+        reg2 = instruction[13:16]
+        register.V=0
+        if (register.all_registers[reg1] == register.all_registers[reg2]):
+            register.LGE = 1
+        elif (register.all_registers[reg1] > register.all_registers[reg2]):
+            register.LGE = 2
+        elif (register.all_registers[reg1] < register.all_registers[reg2]):
+            register.LGE = 4
+        return False, pc + 1
+    
+# function ends
 
 
+# main driver code 
 
 variable_memory = {} # stores all the variable encountered in format {'address_in_binary_string' : value_in_decimal}
 memory = Memory()       # object of Memory, see implementation. It has a dict 'memory.memoryDict' which stores {address_in_decimal : 'instruction_in_16_bit_binary_as_string'}
