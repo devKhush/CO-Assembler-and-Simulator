@@ -99,100 +99,74 @@ def execute(instruction, pc, register, programMemory, variableMemory):
             variableMemory[variable_address] = register.all_registers[register_operand]
             return False, pc+1
 
-    elif opcode == '00000': #addition
-
+    elif opcode == '00000':  # addition
         reg1 = instruction[7:10]
         reg2 = instruction[10:13]
         reg3 = instruction[13:]
-
         reg2_val = register.all_registers[reg2]
         reg3_val = register.all_registers[reg3]
-
-        s = reg2_val + reg3_val
-
-        if s > pow(2,16) - 1:
+        sum = reg2_val + reg3_val
+        if sum > pow(2, 16) - 1:
             register.V = 1
-            register.all_registers[reg1] = s - pow(2,16)
+            register.all_registers[reg1] = sum - pow(2, 16)
         else:
-            register.all_registers[reg1] = s
-        
-        return False, pc+1
-    
-    elif opcode == '00001': #subtraction
+            register.all_registers[reg1] = sum
+        return False, pc + 1
 
+    elif opcode == '00001':  # subtraction
         reg1 = instruction[7:10]
         reg2 = instruction[10:13]
         reg3 = instruction[13:]
-
         reg2_val = register.all_registers[reg2]
         reg3_val = register.all_registers[reg3]
-
-        s= reg2_val-reg3_val
-
-        if s<0:
-            register.V=1
+        difference = reg2_val - reg3_val
+        if difference < 0:
+            register.all_registers[reg1] = 0
+            register.V = 1
         else:
-            register.all_registers[reg1] = s
-        
-        return False, pc+1
+            register.all_registers[reg1] = difference
+        return False, pc + 1
 
-    elif opcode == '00110': #multiplication
-
+    elif opcode == '00110':  # multiplication
         reg1 = instruction[7:10]
         reg2 = instruction[10:13]
         reg3 = instruction[13:]
-
         reg2_val = register.all_registers[reg2]
         reg3_val = register.all_registers[reg3]
-
-        s= reg2_val*reg3_val
-
-        if s>pow(2,16) - 1:
-            register.V=1
-            register.all_registers[reg1]= s - pow(2,16)
+        product = reg2_val * reg3_val
+        if product > pow(2, 16) - 1:
+            register.V = 1
+            register.all_registers[reg1] = product - pow(2, 16)
         else:
-            register.all_registers[reg1] = s
-        
-        return False, pc+1
-    
-    elif opcode == "01010": #bitwise XOR
-        
+            register.all_registers[reg1] = product
+        return False, pc + 1
+
+    elif opcode == "01010":  # bitwise XOR
         reg1 = instruction[7:10]
         reg2 = instruction[10:13]
         reg3 = instruction[13:]
-
         reg2_val = register.all_registers[reg2]
         reg3_val = register.all_registers[reg3]
+        register.all_registers[reg1] = reg2_val ^ reg3_val
+        return False, pc + 1
 
-        s= reg2_val^reg3_val
-
-        return False, pc+1
-
-    elif opcode == "01011": #bitwise OR
-
+    elif opcode == "01011":      # bitwise OR
         reg1 = instruction[7:10]
         reg2 = instruction[10:13]
         reg3 = instruction[13:]
-
         reg2_val = register.all_registers[reg2]
         reg3_val = register.all_registers[reg3]
+        register.all_registers[reg1] = reg2_val | reg3_val
+        return False, pc + 1
 
-        s= reg2_val|reg3_val
-
-        return False, pc+1
-
-    elif opcode == "01100":
-
+    elif opcode == "01100":       # bitwise and operation
         reg1 = instruction[7:10]
         reg2 = instruction[10:13]
         reg3 = instruction[13:]
-
         reg2_val = register.all_registers[reg2]
         reg3_val = register.all_registers[reg3]
-
-        s= reg2_val & reg3_val
-
-        return False, pc+1
+        register.all_registers[reg1] = reg2_val & reg3_val
+        return False, pc + 1
 
 
     
