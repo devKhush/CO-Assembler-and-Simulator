@@ -4,7 +4,6 @@ from sys import stdin
 class Memory:
     def __init__(self):
         self.memoryDict = {}  # {pc : instruction_binary_code}
-
     def fetch(self, pc):
         instruction = self.memoryDict[pc]
         return instruction
@@ -47,6 +46,7 @@ def initialize(memory_dict):
     for line in stdin:
         memory_dict[address] = line
         address += 1
+    return memory_dict
 
 
 def showTraces():
@@ -57,7 +57,7 @@ def showTraces():
 def dumpMemory(programMemory, variableMemory):
     lines = 1
     for i,j in programMemory.items():
-        print(j)
+        print(j[:16])
         lines+=1
     for i,j in variableMemory.items():
         variable_value_in_binary = '{0:016b}'.format(j)
@@ -78,7 +78,7 @@ def execute(instruction, pc, register, programMemory, variableMemory):
         return True, pc
 
     elif opcode=='00100':            # load instruction
-        variable_address = instruction[8:]
+        variable_address = instruction[8:16]
         register_operand = instruction[5:8]
         if variable_address in variableMemory.keys():
             register.all_registers[register_operand] = variableMemory[variable_address]
@@ -89,7 +89,7 @@ def execute(instruction, pc, register, programMemory, variableMemory):
             return False, pc+1
 
     elif opcode == '00101':              # store instruction
-        variable_address = instruction[8:]
+        variable_address = instruction[8:16]
         register_operand = instruction[5:8]
         if variable_address in variableMemory.keys():
             variableMemory[variable_address] = register.all_registers[register_operand]
@@ -102,7 +102,7 @@ def execute(instruction, pc, register, programMemory, variableMemory):
     elif opcode == '00000':  # addition
         reg1 = instruction[7:10]
         reg2 = instruction[10:13]
-        reg3 = instruction[13:]
+        reg3 = instruction[13:16]
         reg2_val = register.all_registers[reg2]
         reg3_val = register.all_registers[reg3]
         sum = reg2_val + reg3_val
@@ -116,7 +116,7 @@ def execute(instruction, pc, register, programMemory, variableMemory):
     elif opcode == '00001':  # subtraction
         reg1 = instruction[7:10]
         reg2 = instruction[10:13]
-        reg3 = instruction[13:]
+        reg3 = instruction[13:16]
         reg2_val = register.all_registers[reg2]
         reg3_val = register.all_registers[reg3]
         difference = reg2_val - reg3_val
@@ -130,7 +130,7 @@ def execute(instruction, pc, register, programMemory, variableMemory):
     elif opcode == '00110':  # multiplication
         reg1 = instruction[7:10]
         reg2 = instruction[10:13]
-        reg3 = instruction[13:]
+        reg3 = instruction[13:16]
         reg2_val = register.all_registers[reg2]
         reg3_val = register.all_registers[reg3]
         product = reg2_val * reg3_val
@@ -144,7 +144,7 @@ def execute(instruction, pc, register, programMemory, variableMemory):
     elif opcode == "01010":  # bitwise XOR
         reg1 = instruction[7:10]
         reg2 = instruction[10:13]
-        reg3 = instruction[13:]
+        reg3 = instruction[13:16]
         reg2_val = register.all_registers[reg2]
         reg3_val = register.all_registers[reg3]
         register.all_registers[reg1] = reg2_val ^ reg3_val
@@ -153,7 +153,7 @@ def execute(instruction, pc, register, programMemory, variableMemory):
     elif opcode == "01011":      # bitwise OR
         reg1 = instruction[7:10]
         reg2 = instruction[10:13]
-        reg3 = instruction[13:]
+        reg3 = instruction[13:16]
         reg2_val = register.all_registers[reg2]
         reg3_val = register.all_registers[reg3]
         register.all_registers[reg1] = reg2_val | reg3_val
@@ -162,13 +162,11 @@ def execute(instruction, pc, register, programMemory, variableMemory):
     elif opcode == "01100":       # bitwise and operation
         reg1 = instruction[7:10]
         reg2 = instruction[10:13]
-        reg3 = instruction[13:]
+        reg3 = instruction[13:16]
         reg2_val = register.all_registers[reg2]
         reg3_val = register.all_registers[reg3]
         register.all_registers[reg1] = reg2_val & reg3_val
         return False, pc + 1
-
-
     
     return
 
@@ -176,17 +174,18 @@ def execute(instruction, pc, register, programMemory, variableMemory):
 
 variable_memory = {} # stores all the variable encountered in format {'address_in_binary_string' : value_in_decimal}
 memory = Memory()       # object of Memory, see implementation. It has a dict 'memory.memoryDict' which stores {address_in_decimal : 'instruction_in_16_bit_binary_as_string'}
-initialize(memory.memoryDict)     # Load memory from stdin
+memory.memoryDict = initialize(memory.memoryDict)     # Load memory from stdin
 PC = Program_counter()            # initialise the pc and Start from the first 0th instruction
 register = Registers()            # object of Registers, see implementation
 
 halted = False
+#print(memory.memoryDict)
 while not halted:
-    Instruction = memory.fetch(PC)                   # Get current instruction
+    Instruction = memory.fetch(PC.pc_value)            # Get current instruction
     halted, new_PC = execute(Instruction, PC.pc_value, register, memory.memoryDict, variable_memory) # Update Registers and compute new_PC
     PC.dump()                                          # Print PC
     register.dump()                                    # Print Register's state
     PC.update(new_PC)  # Update PC
 
 dumpMemory(memory.memoryDict, variable_memory)
-showTraces()
+#showTraces()
