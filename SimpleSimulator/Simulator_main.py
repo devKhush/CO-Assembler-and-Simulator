@@ -169,6 +169,16 @@ def execute(instruction, pc, register, programMemory, variableMemory):
         register.all_registers[reg1] = reg2_val & reg3_val
         return False, pc + 1
     
+    elif opcode == "00011":     # move register
+        reg1 = instruction[10:13]
+        reg2 = instruction[13:16]
+        if reg2=='111':
+            reg2_value_in_binary = str(register.V) + '{0:03b}'.format(register.LGE)
+            register.all_registers[reg1] = int(reg2_value_in_binary,2)
+        else:
+            register.all_registers[reg1] = register.all_registers[reg2]
+        return False,pc+1
+    
     return
 
 
