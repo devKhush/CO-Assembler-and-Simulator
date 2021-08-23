@@ -76,7 +76,7 @@ def execute(instruction, pc, register, programMemory, variableMemory):
     opcode = instruction[0:5]    # opcode of instruction
 
     if opcode=='10011':               # halt instruction
-        return True, pc
+        return True, pc+1
 
     elif opcode=='00100':            # load instruction
         variable_address = instruction[8:16]
@@ -178,6 +178,35 @@ def execute(instruction, pc, register, programMemory, variableMemory):
         else:
             register.all_registers[reg1] = register.all_registers[reg2]
         return False,pc+1
+
+    elif opcode =='01111':     # jmp instruction
+        memory_address_to_jmp = instruction[8:16]
+        newPc = int(memory_address_to_jmp,2)
+        return False, newPc
+
+    elif opcode=='10000':      # jlt instruction
+        memory_address_to_jmp = instruction[8:16]
+        newPc = int(memory_address_to_jmp, 2)
+        if register.LGE==4:
+            return False, newPc
+        else:
+            return False, pc+1
+
+    elif opcode=='10001':      # jgt instruction
+        memory_address_to_jmp = instruction[8:16]
+        newPc = int(memory_address_to_jmp, 2)
+        if register.LGE==2:
+            return False, newPc
+        else:
+            return False, pc+1
+
+    elif opcode=='10010':      # je instruction
+        memory_address_to_jmp = instruction[8:16]
+        newPc = int(memory_address_to_jmp, 2)
+        if register.LGE==1:
+            return False, newPc
+        else:
+            return False, pc+1
     
     return
 
@@ -192,11 +221,11 @@ register = Registers()            # object of Registers, see implementation
 halted = False
 #print(memory.memoryDict)
 while not halted:
-    Instruction = memory.fetch(PC.pc_value)            # Get current instruction
+    Instruction = memory.fetch(PC.pc_value)       # Get current instruction
     halted, new_PC = execute(Instruction, PC.pc_value, register, memory.memoryDict, variable_memory) # Update Registers and compute new_PC
-    PC.dump()                                          # Print PC
-    register.dump()                                    # Print Register's state
-    PC.update(new_PC)  # Update PC
+    PC.dump()                  # Print PC
+    register.dump()            # Print Register's state
+    PC.update(new_PC)          # Update PC
 
 dumpMemory(memory.memoryDict, variable_memory)
 #showTraces()
