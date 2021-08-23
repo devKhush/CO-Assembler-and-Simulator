@@ -1,5 +1,5 @@
 from sys import stdin
-
+import matplotlib.pyplot as plt
 
 class Memory:
     def __init__(self):
@@ -50,8 +50,13 @@ def initialize(memory_dict):
     return memory_dict
 
 
-def showTraces():
-    #to be done by Khushdev for bonus
+def showTraces(x_coordinate,y_coordinate):
+    plt.plot(x_coordinate, y_coordinate, marker='o', color='r')
+    plt.title("Memory Accesses  v/s  Clock cycle")
+    plt.xlabel('Cycle no.')
+    plt.ylabel('Memory address')
+    plt.show()
+    plt.savefig('Matplotlib.png')
     return
 
 
@@ -70,7 +75,7 @@ def dumpMemory(programMemory, variableMemory):
     return
 
 
-def execute(instruction, pc, register, programMemory, variableMemory):
+def execute(instruction, pc, register, programMemory, variableMemory, clock, x_coordinate, y_coordinate):
     # divide work among them equally
     # add code for this function
     opcode = instruction[0:5]    # opcode of instruction
@@ -83,6 +88,8 @@ def execute(instruction, pc, register, programMemory, variableMemory):
     elif opcode=='00100':            # load instruction
         variable_address = instruction[8:16]
         register_operand = instruction[5:8]
+        x_coordinate.append(clock)
+        y_coordinate.append(int(variable_address, 2))
         if variable_address in variableMemory.keys():
             register.all_registers[register_operand] = variableMemory[variable_address]
             register.V=0
@@ -98,6 +105,8 @@ def execute(instruction, pc, register, programMemory, variableMemory):
     elif opcode == '00101':              # store instruction
         variable_address = instruction[8:16]
         register_operand = instruction[5:8]
+        x_coordinate.append(clock)
+        y_coordinate.append(int(variable_address, 2))
         if variable_address in variableMemory.keys():
             variableMemory[variable_address] = register.all_registers[register_operand]
             register.V=0
@@ -319,14 +328,21 @@ memory.memoryDict = initialize(memory.memoryDict)     # Load memory from stdin
 PC = Program_counter()            # initialise the pc and Start from the first 0th instruction
 register = Registers()            # object of Registers, see implementation
 
+clock_cycle = 1
+x_coordinate_cycle = []
+y_coordinate_memory_access = []
+
 halted = False
 #print(memory.memoryDict)
 while not halted:
     Instruction = memory.fetch(PC.pc_value)       # Get current instruction
-    halted, new_PC = execute(Instruction, PC.pc_value, register, memory.memoryDict, variable_memory) # Update Registers and compute new_PC
+    halted, new_PC = execute(Instruction, PC.pc_value, register, memory.memoryDict, variable_memory, clock_cycle, x_coordinate_cycle, y_coordinate_memory_access) # Update Registers and compute new_PC
     PC.dump()                  # Print PC
     register.dump()            # Print Register's state
+    x_coordinate_cycle.append(clock_cycle)
+    y_coordinate_memory_access.append(PC.pc_value)
     PC.update(new_PC)          # Update PC
+    clock_cycle += 1
 
 dumpMemory(memory.memoryDict, variable_memory)
-#showTraces()
+showTraces(x_coordinate_cycle,y_coordinate_memory_access)
