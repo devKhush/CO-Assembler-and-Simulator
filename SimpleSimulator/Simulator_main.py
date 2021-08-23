@@ -35,9 +35,10 @@ class Registers:
         r4_binary = '{0:016b}'.format(self.all_registers['100'])
         r5_binary = '{0:016b}'.format(self.all_registers['101'])
         r6_binary = '{0:016b}'.format(self.all_registers['110'])
-        flag_binary = '0'*12 + str(self.V)+ str(self.LGE)
+        flag_binary = '0'*12 + str(self.V)+ '{0:03b}'.format(self.LGE)
         print(r0_binary,end=" "), print(r1_binary,end =" "), print(r2_binary,end=" "), print(r3_binary,end =" ")
-        print(r4_binary,end=" "), print(r5_binary,end=" "), print(r6_binary,end=" "), print(flag_binary)
+        print(r4_binary,end=" "), print(r5_binary,end=" "), print(r6_binary,end=" "), print(flag_binary,end=" ")
+        print()
 
 
 
