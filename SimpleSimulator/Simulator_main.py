@@ -51,7 +51,7 @@ def initialize(memory_dict):
 
 
 def showTraces(x_coordinate,y_coordinate):
-    plt.plot(x_coordinate, y_coordinate, marker='o', color='r')
+    plt.plot(x_coordinate, y_coordinate, marker='o', color='r', linestyle='None')
     plt.title("Memory Accesses  v/s  Clock cycle")
     plt.xlabel('Cycle no.')
     plt.ylabel('Memory address')
