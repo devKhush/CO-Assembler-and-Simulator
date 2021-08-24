@@ -1,7 +1,9 @@
 var c
 
 var xyz
-add R0 R1 R2
+mov R1 $4
+mov R2 $4
+add R5 R1 R2
 
 mov R3 $20
 st R5 c
@@ -11,12 +13,13 @@ st R6 c
 ld R2 c
 sub R0 R5 R2
 mov R0 $100
+not R4 R6
 
 st R0 c
 
+st R6 xyz
 cmp R3 R6
 jlt label
-
 add R0 R5 R4
 not R1 R2
 

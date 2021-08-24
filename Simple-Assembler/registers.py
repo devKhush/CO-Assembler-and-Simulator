@@ -30,7 +30,7 @@ def typeA_fun(instruction_entered) :
 
 
     #multiplication function
-    elif (ml[:5]=="00010"):
+    elif (ml[:5]=="00110"):
         binary_of_registers[instruction_entered[1]][1] = binary_of_registers[instruction_entered[2]][1]* binary_of_registers[instruction_entered[3]][1]
         if binary_of_registers[instruction_entered[1]][1]> 65535: #overflow:when the answer is more than 255
             V=1

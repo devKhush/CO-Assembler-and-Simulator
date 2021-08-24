@@ -127,10 +127,6 @@ if halt_found==0:
     print(f"'Syntax Error' In line no. {line_num}: Missing 'hlt' instruction")
     binary_to_be_generated = False
 
-if current_address>256:
-    print(f"'General Syntax Error' In line no. {line_num}: More than 256 instructions encountered")
-    binary_to_be_generated = False
-
 
 for variableName in all_varaibles_defined:
     variables[variableName] = [current_address, 0]
@@ -275,7 +271,7 @@ if True:
                     binary_to_be_generated = False
                     continue
                 elif (instruction_to_be_executed[1] not in registers.binary_of_registers.keys()):
-                    print(f"'Syntax Error' In line no. {line_num }: Register .not supported by ISA")
+                    print(f"'Syntax Error' In line no. {line_num }: Register not supported by ISA")
                     program_counter+=1
                     binary_to_be_generated = False
                     continue

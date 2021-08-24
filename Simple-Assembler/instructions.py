@@ -34,7 +34,7 @@ def typeC_fun(instruction_entered):
     if instruction_entered[0]=="mov" and instruction_entered[2] =='FLAGS':
         op_code = type_C_instructions[instruction_entered[0]]
         register1_binary= registers.binary_of_registers[instruction_entered[1]][0]
-        flags_value =  str(registers.V) +str(registers.LGE)
+        flags_value =  str(registers.V) + '{0:03b}'.format(registers.LGE)
         ml = op_code + '00000' + register1_binary + '111'
         print(ml)
         registers.binary_of_registers[instruction_entered[1]][1] = int(flags_value,2)
